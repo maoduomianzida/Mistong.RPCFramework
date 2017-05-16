@@ -1,0 +1,5 @@
+E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework\bin\Debug\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework\bin\Debug\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.csprojResolveAssemblyReference.cache
+E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.pdb
