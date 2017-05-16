@@ -1,0 +1,12 @@
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.exe.config
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.exe
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Debug\Mistong.RPCFramework.ThriftClient.csprojResolveAssemblyReference.cache
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Debug\Mistong.RPCFramework.ThriftClient.exe
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Debug\Mistong.RPCFramework.ThriftClient.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.Thrift.pdb

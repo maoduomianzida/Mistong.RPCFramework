@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace Mistong.RPCFramework
 {
     /// <summary>
-    /// 从程序集查找服务接口
+    /// 从程序集查找服务接口以及实现类
     /// </summary>
     public interface IServiceFinder
     {
-        IEnumerable<Type> Select(IEnumerable<Assembly> asseblys);
+        IEnumerable<ServiceMap> Find(IServiceAssembliesResolver resolver);
     }
 }

@@ -9,26 +9,26 @@ namespace Mistong.RPCFramework
     /// <summary>
     /// 服务信息
     /// </summary>
-    public class Service
+    public abstract class Service
     {
         /// <summary>
         /// 服务名称
         /// </summary>
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary>
         /// 服务类型
         /// </summary>
-        public Type Type { get; set; }
+        public abstract string Type { get; }
 
         /// <summary>
         /// 端口号
         /// </summary>
-        public int Port { get; set; }
+        public virtual int Port { get; set; }
 
         /// <summary>
         /// 地址
         /// </summary>
-        public string Address { get; set; }
+        public virtual string Address { get; set; }
     }
 }

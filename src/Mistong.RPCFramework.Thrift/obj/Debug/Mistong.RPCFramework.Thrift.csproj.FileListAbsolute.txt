@@ -5,3 +5,11 @@ E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework.Thrift\bin\Debug\Mi
 E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.csprojResolveAssemblyReference.cache
 E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.dll
 E:\Mistong_Project\Mistong.RPCFramework\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Mistong.RPCFramework.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Mistong.RPCFramework.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.csprojResolveAssemblyReference.cache
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.pdb
