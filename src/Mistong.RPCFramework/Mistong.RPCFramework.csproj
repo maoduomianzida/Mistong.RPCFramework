@@ -40,13 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IServiceAssembliesResolver.cs" />
-    <Compile Include="IServiceDiscoverer.cs" />
-    <Compile Include="IServiceRegistry.cs" />
-    <Compile Include="IServiceFinder.cs" />
+    <Compile Include="Client\IServiceAssembliesResolver.cs" />
+    <Compile Include="Client\IServiceDiscoverer.cs" />
+    <Compile Include="Server\IServiceRegistry.cs" />
+    <Compile Include="Client\IServiceFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
-    <Compile Include="ServiceMap.cs" />
+    <Compile Include="Client\ServiceContainer.cs" />
+    <Compile Include="Client\ServiceMap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

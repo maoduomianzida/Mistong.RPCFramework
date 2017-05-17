@@ -42,7 +42,7 @@ namespace Mistong.RPCFramework.Thrift
             Type serviceType = Type.GetType(serviceName + "+Iface," + assemblyName);
             Type implementType = Type.GetType(serviceName + "+Client," + assemblyName);
             if (serviceType != null && implementType != null)
-                return new ServiceMap { Implement = implementType, Interface = serviceType };
+                return new ServiceMap(serviceType, implementType);
 
             return null;
         }

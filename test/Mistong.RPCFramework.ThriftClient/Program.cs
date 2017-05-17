@@ -1,4 +1,5 @@
 ﻿using Mistong.RPCFramework.Thrift;
+using Mistong.Services.UserService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
