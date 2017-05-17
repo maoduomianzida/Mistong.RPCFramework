@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Consul, Version=0.7.2.3, Culture=neutral, PublicKeyToken=20a6ad9a81df1d95, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Consul.0.7.2.3\lib\net45\Consul.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,8 +48,11 @@
   <ItemGroup>
     <Compile Include="ThriftService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThriftServiceConfig.cs" />
+    <Compile Include="ThriftServiceRegistryConfiguration.cs" />
     <Compile Include="ThriftServiceDiscoverer.cs" />
     <Compile Include="ThriftServiceFinder.cs" />
+    <Compile Include="ThriftServiceRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mistong.RPCFramework\Mistong.RPCFramework.csproj">

@@ -8,3 +8,8 @@ E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\bin\Debug\Misto
 E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.csprojResolveAssemblyReference.cache
 E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.dll
 E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.pdb
+F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\bin\Debug\Mistong.RPCFramework.dll
+F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\bin\Debug\Mistong.RPCFramework.pdb
+F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.csprojResolveAssemblyReference.cache
+F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.dll
+F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.pdb
