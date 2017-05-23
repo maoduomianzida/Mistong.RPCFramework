@@ -42,10 +42,13 @@
   <ItemGroup>
     <Compile Include="Client\IServiceAssembliesResolver.cs" />
     <Compile Include="Client\IServiceDiscoverer.cs" />
+    <Compile Include="Config\ConfigCenter.cs" />
+    <Compile Include="Config\ServiceConfig.cs" />
     <Compile Include="Server\IServiceRegistry.cs" />
     <Compile Include="Client\IServiceFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\IServiceRegistryConfiguration.cs" />
+    <Compile Include="Server\IServiceStarter.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="Client\ServiceContainer.cs" />
     <Compile Include="Client\ServiceMap.cs" />

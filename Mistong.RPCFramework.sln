@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{170A0340-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mistong.RPCFramework.ThriftClient", "test\Mistong.RPCFramework.ThriftClient\Mistong.RPCFramework.ThriftClient.csproj", "{FD841554-1AD4-4A36-9E4C-42AA52F51A39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mistong.RPCFramework.UnitTest", "test\Mistong.RPCFramework.UnitTest\Mistong.RPCFramework.UnitTest.csproj", "{0FF79180-1514-4C3C-96BA-F6E572064E71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{FD841554-1AD4-4A36-9E4C-42AA52F51A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD841554-1AD4-4A36-9E4C-42AA52F51A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD841554-1AD4-4A36-9E4C-42AA52F51A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF79180-1514-4C3C-96BA-F6E572064E71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF79180-1514-4C3C-96BA-F6E572064E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF79180-1514-4C3C-96BA-F6E572064E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF79180-1514-4C3C-96BA-F6E572064E71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,6 @@ Global
 		{E6F3AA6D-4B38-4121-B551-37F52A0AD765} = {F32A4A97-8A4C-4524-80D8-30517778A1AC}
 		{038E41C2-04F1-483A-9CCC-04F682B80AC2} = {F32A4A97-8A4C-4524-80D8-30517778A1AC}
 		{FD841554-1AD4-4A36-9E4C-42AA52F51A39} = {170A0340-F584-43CC-AD46-14E659E18140}
+		{0FF79180-1514-4C3C-96BA-F6E572064E71} = {170A0340-F584-43CC-AD46-14E659E18140}
 	EndGlobalSection
 EndGlobal

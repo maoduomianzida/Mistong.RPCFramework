@@ -22,3 +22,7 @@ F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Debug\Mis
 F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.dll
 F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Debug\Mistong.RPCFramework.Thrift.pdb
 F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Consul.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Consul.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Newtonsoft.Json.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Newtonsoft.Json.xml
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Debug\Mistong.Logger.dll

@@ -15,6 +15,6 @@ namespace Mistong.RPCFramework
         /// 注册服务
         /// </summary>
         /// <param name="services"></param>
-        void Register(IEnumerable<Service> services);
+        void Register(ICollection<Service> services);
     }
 }
