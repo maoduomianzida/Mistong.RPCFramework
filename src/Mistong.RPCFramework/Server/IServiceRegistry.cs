@@ -12,6 +12,11 @@ namespace Mistong.RPCFramework
     public interface IServiceRegistry
     {
         /// <summary>
+        /// 配置中心信息
+        /// </summary>
+        ConfigCenter ConfigCenter { get; set; }
+
+        /// <summary>
         /// 注册服务
         /// </summary>
         /// <param name="services"></param>

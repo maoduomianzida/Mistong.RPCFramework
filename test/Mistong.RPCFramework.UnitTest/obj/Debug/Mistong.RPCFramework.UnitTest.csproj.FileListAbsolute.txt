@@ -4,7 +4,6 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\D
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\zh-Hans\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll
-E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\data\service.json
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Mistong.RPCFramework.UnitTest.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Mistong.RPCFramework.UnitTest.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Consul.dll
@@ -24,3 +23,4 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\obj\D
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\obj\Debug\Mistong.RPCFramework.UnitTest.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Mistong.RPCFramework.UnitTest.Thrift.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Mistong.Logger.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\services.json

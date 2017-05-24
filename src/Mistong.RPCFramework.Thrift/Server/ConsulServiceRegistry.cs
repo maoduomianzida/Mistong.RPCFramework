@@ -13,19 +13,27 @@ namespace Mistong.RPCFramework.Thrift
     {
         private IConsulClient _client;
         private ConfigCenter _config;
-        private ILogger _logger;
 
-        public ConsulServiceRegistry(ConfigCenter config, ILogger logger)
+        public ConsulServiceRegistry()
         {
-            if (config == null) throw new ArgumentNullException(nameof(config));
+        }
 
-            _config = config;
-            _logger = logger;
-            ValidateConfig(config);
-            _client = new ConsulClient(tmp =>
+        public ConfigCenter ConfigCenter
+        {
+            get
             {
-                tmp.Address = new Uri(config.Clusters.First());
-            });
+                return _config;
+            }
+
+            set
+            {
+                ValidateConfig(value);
+                _config = value;
+                _client = new ConsulClient(tmp =>
+                {
+                    tmp.Address = new Uri(value.Clusters.First());
+                });
+            }
         }
 
         private void ValidateConfig(ConfigCenter center)
@@ -52,7 +60,7 @@ namespace Mistong.RPCFramework.Thrift
                 {
                     if (tmp.Exception != null)
                     {
-                        _logger?.Log(new ApplicationErrorMessage(tmp.Exception, "注册服务时发生错误"));
+                        LogManager.WriteLog(new ApplicationErrorMessage(tmp.Exception, "注册服务时发生错误"));
                     }
                     else if (tmp.IsCanceled)
                     {
@@ -62,7 +70,7 @@ namespace Mistong.RPCFramework.Thrift
                     {
                         if (tmp.Result.StatusCode != System.Net.HttpStatusCode.OK)
                         {
-                            _logger?.Log(new ApplicationMessage
+                            LogManager.WriteLog(new ApplicationMessage
                             {
                                 Comments = $"注册服务异常 consul:({string.Join(",", _config.Clusters)})",
                                 LogLevel = Logger.Message.LogLevel.Error,
@@ -72,7 +80,7 @@ namespace Mistong.RPCFramework.Thrift
                     }
                     else if (tmp.IsFaulted)
                     {
-                        _logger?.Log(new ApplicationMessage
+                        LogManager.WriteLog(new ApplicationMessage
                         {
                             Comments = $"注册服务异常 consul:({string.Join(",", _config.Clusters)})",
                             LogLevel = Logger.Message.LogLevel.Error,

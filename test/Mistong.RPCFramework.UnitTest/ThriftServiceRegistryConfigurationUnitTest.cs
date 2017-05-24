@@ -16,7 +16,8 @@ namespace Mistong.RPCFramework.UnitTest
         [TestInitialize]
         public void Init()
         {
-            _configuration = new ConsulServiceRegistryConfiguration("data/service.json");
+            _configuration = new ConsulServiceRegistryConfiguration();
+            GlobalSetting.SetContainer(new ThriftServiceContainer());
         }
 
         [TestMethod]
@@ -48,8 +49,15 @@ namespace Mistong.RPCFramework.UnitTest
         public void 测试ConsulServiceRegistry注册()
         {
             ServiceConfig config = _configuration.GetServiceConfig();
-            ConsulServiceRegistry registry = new ConsulServiceRegistry(config.ConfigCenter, null);
+            ConsulServiceRegistry registry = new ConsulServiceRegistry();
+            registry.ConfigCenter = config.ConfigCenter;
             registry.Register(config.Services);
+        }
+
+        [TestMethod]
+        public void 测试ServiceController()
+        {
+            GlobalSetting.ServiceController.Start();
         }
     }
 }

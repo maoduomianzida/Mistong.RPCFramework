@@ -12,8 +12,8 @@ namespace Mistong.RPCFramework.Thrift
         {
             return new ThriftService[]
             {
-                new ThriftService { Address = "192.168.1.1", Name = "Mistong.Services.UserService", Port = 100 , ServiceType = null, Transport = null },
-                new ThriftService { Address = "192.168.1.2", Name = "Mistong.Services.OrderService", Port = 100, ServiceType = null, Transport = null }
+                new ThriftService { Address = "192.168.1.1", Name = "Mistong.Services.UserService", Port = 100 , ServiceType = null },
+                new ThriftService { Address = "192.168.1.2", Name = "Mistong.Services.OrderService", Port = 100, ServiceType = null }
             };
         }
     }

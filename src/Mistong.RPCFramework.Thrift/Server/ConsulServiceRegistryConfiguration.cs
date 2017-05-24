@@ -15,6 +15,9 @@ namespace Mistong.RPCFramework.Thrift
         private IContractResolver _contractResolver;
         private IList<JsonConverter> _converts;
 
+        public ConsulServiceRegistryConfiguration() :this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"services.json"))
+        { }
+
         public ConsulServiceRegistryConfiguration(string configPath)
         {
             if (string.IsNullOrWhiteSpace(configPath)) throw new ArgumentNullException(nameof(configPath));

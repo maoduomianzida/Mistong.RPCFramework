@@ -8,7 +8,6 @@
   "services": [
     {
       "name": "mistong.ewt.rpc.services.userservice",
-      "address": "172.16.211.149",
       "port": 1000,
       "serviceType": "Mistong.RPCFramework.UnitTest.UserServiceImplement,Mistong.RPCFramework.UnitTest",
       "type": "thrift"

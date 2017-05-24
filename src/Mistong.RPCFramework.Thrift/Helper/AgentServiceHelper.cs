@@ -17,7 +17,7 @@ namespace Mistong.RPCFramework.Thrift
                 Name = service.Name,
                 Address = service.Address,
                 Port = service.Port,
-                Tags = new string[] { service.Type, ThriftServiceHelper.ExtractThriftInterface(service.ServiceType)?.FullName, service.Transport?.GetType().FullName }
+                Tags = new string[] { service.Type, ThriftServiceHelper.ExtractThriftInterface(service.ServiceType)?.FullName }
             };
         }
     }

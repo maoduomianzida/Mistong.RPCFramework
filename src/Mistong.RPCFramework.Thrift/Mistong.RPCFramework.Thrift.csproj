@@ -57,7 +57,10 @@
     <Compile Include="Converter\ConfigCenterCreationConverter.cs" />
     <Compile Include="Converter\ServiceCreationConverter.cs" />
     <Compile Include="Helper\ThriftServiceHelper.cs" />
-    <Compile Include="Server\ThriftServiceStarter.cs" />
+    <Compile Include="Server\IServiceActivator.cs" />
+    <Compile Include="Server\ThriftServiceActivator.cs" />
+    <Compile Include="Server\ThriftServiceContainer.cs" />
+    <Compile Include="Server\ThriftServiceController.cs" />
     <Compile Include="ThriftService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ConsulServiceRegistryConfiguration.cs" />

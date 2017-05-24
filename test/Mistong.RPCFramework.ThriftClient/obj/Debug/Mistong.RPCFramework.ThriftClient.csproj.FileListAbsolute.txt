@@ -29,3 +29,4 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\b
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Newtonsoft.Json.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Newtonsoft.Json.xml
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.Logger.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\services.json

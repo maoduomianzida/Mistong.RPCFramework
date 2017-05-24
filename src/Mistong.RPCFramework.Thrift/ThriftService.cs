@@ -12,7 +12,5 @@ namespace Mistong.RPCFramework.Thrift
         public override string Type { get { return "thrift"; } }
 
         public Type ServiceType { get; set; }
-
-        public TServerTransport  Transport { get; set; }
     }
 }

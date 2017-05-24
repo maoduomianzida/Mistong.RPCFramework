@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework
 {
-    public sealed class ServiceContainer
+    /*public sealed class ServiceContainer
     {
         private ICollection<IServiceFinder> _finderCollections;
         private IServiceAssembliesResolver _assembliesResolver;
@@ -48,5 +48,5 @@ namespace Mistong.RPCFramework
 
             return null;
         }
-    }
+    }*/
 }

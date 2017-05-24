@@ -9,12 +9,17 @@ namespace Mistong.RPCFramework
     /// <summary>
     /// 服务启动接口
     /// </summary>
-    public interface IServiceStarter
+    public interface IServiceController
     {
         /// <summary>
         /// 启动服务
         /// </summary>
         /// <param name="services"></param>
-        void Start(ICollection<Service> services);
+        void Start();
+
+        /// <summary>
+        /// 停止服务
+        /// </summary>
+        void Stop();
     }
 }
