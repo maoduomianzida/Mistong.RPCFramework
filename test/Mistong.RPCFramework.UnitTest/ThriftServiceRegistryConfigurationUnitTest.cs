@@ -25,7 +25,7 @@ namespace Mistong.RPCFramework.UnitTest
         {
             ServiceConfig config = _configuration.GetServiceConfig();
 
-            Assert.AreEqual(1, config.Services.Count());
+            Assert.AreEqual(1, config.Server.Count());
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace Mistong.RPCFramework.UnitTest
         {
             ConfigCenter center = new ConsulConfigCenter() { Clusters = new List<string> { "172.16.211.146" } };
             List<Service> services = new List<Service> { new ThriftService { Address = "172.16.211.146", Name = "userservice", Port = 9000, ServiceType = typeof(UserServiceImplement)} };
-            ServiceConfig config = new ServiceConfig() { Services = services, ConfigCenter = center };
+            ServiceConfig config = new ServiceConfig() { Server = services, ConfigCenter = center };
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
             setting.Converters.Add(new TypeConverter());
@@ -51,7 +51,7 @@ namespace Mistong.RPCFramework.UnitTest
             ServiceConfig config = _configuration.GetServiceConfig();
             ConsulServiceRegistry registry = new ConsulServiceRegistry();
             registry.ConfigCenter = config.ConfigCenter;
-            registry.Register(config.Services);
+            registry.Register(config.Server);
         }
 
         [TestMethod]

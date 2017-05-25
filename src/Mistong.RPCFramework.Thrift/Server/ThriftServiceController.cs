@@ -1,9 +1,9 @@
-﻿using Mistong.Logger;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Thrift;
 using Thrift.Protocol;
@@ -15,10 +15,12 @@ namespace Mistong.RPCFramework.Thrift
     public class ThriftServiceController : IServiceController
     {
         private ICollection<TServer> _servers;
+        private AutoResetEvent _waitHanlder;
 
         public ThriftServiceController()
         {
             _servers = new Collection<TServer>();
+            _waitHanlder = new AutoResetEvent(false);
         }
 
         private ILookup<int, ThriftService> TidyServices(IEnumerable<ThriftService> services)
@@ -34,24 +36,31 @@ namespace Mistong.RPCFramework.Thrift
                 throw new NullReferenceException("IServiceRegistryConfiguration接口不能为空");
             }
             ServiceConfig serviceConfig = registryConfiguration.GetServiceConfig();
-            ThriftService[] thriftServices = serviceConfig.Services.Cast<ThriftService>().ToArray();
+            ThriftService[] thriftServices = serviceConfig.Server.Cast<ThriftService>().ToArray();
             IServiceRegistry registry = GlobalSetting.Container.GetService<IServiceRegistry>();
             if(registry == null)
             {
                 throw new NullReferenceException("IServiceRegistry接口不能为空");
             }
             registry.ConfigCenter = serviceConfig.ConfigCenter;
-            registry.Register(thriftServices);
+            registry.Register(GetNeedRegisterServices(thriftServices).ToArray());
             ILookup<int, ThriftService> tidyServices = TidyServices(thriftServices);
             foreach(var group in tidyServices)
             {
                 StartService(group);
             }
+            _waitHanlder.WaitOne();
+        }
+
+        protected virtual IEnumerable<ThriftService> GetNeedRegisterServices(IEnumerable<ThriftService> services)
+        {
+            return from service in services where service.NeedRegister select service;
         }
 
         public virtual void Stop()
         {
             Parallel.ForEach(_servers, tmp => tmp.Stop());
+            _waitHanlder.Set();
         }
 
         protected virtual void StartService(IGrouping<int,ThriftService> group)

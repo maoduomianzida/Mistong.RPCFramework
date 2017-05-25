@@ -5,11 +5,17 @@
       "http://127.0.0.1:8500"
     ]
   },
-  "services": [
+  "server": [
     {
       "name": "mistong.ewt.rpc.services.userservice",
       "port": 1000,
       "serviceType": "Mistong.RPCFramework.ThriftClient.UserServiceImplement,Mistong.RPCFramework.ThriftClient",
+      "type": "thrift"
+    },
+    {
+      "name": "mistong.ewt.rpc.services.orderservice",
+      "port": 3000,
+      "serviceType": "Mistong.RPCFramework.ThriftClient.OrderServiceImplement,Mistong.RPCFramework.ThriftClient",
       "type": "thrift"
     }
   ]

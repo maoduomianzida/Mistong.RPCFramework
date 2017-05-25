@@ -17,8 +17,13 @@ namespace Mistong.RPCFramework
         public ConfigCenter ConfigCenter { get; set; }
 
         /// <summary>
-        /// 服务信息
+        /// 服务端配置的服务信息
         /// </summary>
-        public ICollection<Service> Services { get; set; }
+        public ICollection<Service> Server { get; set; }
+
+        /// <summary>
+        /// 客户端配置的服务信息
+        /// </summary>
+        public ICollection<Service> Client { get; set; }
     }
 }

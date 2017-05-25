@@ -46,6 +46,7 @@
     <Compile Include="Config\GlobalSetting.cs" />
     <Compile Include="Config\IGlobalStarter.cs" />
     <Compile Include="Config\ServiceConfig.cs" />
+    <Compile Include="Exception\ServiceRegisterException.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="Server\IServiceContainer.cs" />
     <Compile Include="Server\IServiceRegistry.cs" />

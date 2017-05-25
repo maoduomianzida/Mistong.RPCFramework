@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Thrift.Transport;
 
@@ -15,8 +16,6 @@ namespace Mistong.RPCFramework.ThriftClient
         static void Main(string[] args)
         {
             GlobalSetting.Start(new ThriftServiceContainer());
-
-            Console.Read();
         }
     }
 }

@@ -34,9 +34,6 @@
     <Reference Include="Consul, Version=0.7.2.3, Culture=neutral, PublicKeyToken=20a6ad9a81df1d95, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Consul.0.7.2.3\lib\net45\Consul.dll</HintPath>
     </Reference>
-    <Reference Include="Mistong.Logger, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mistong.Logger.1.0.0.9\lib\net45\Mistong.Logger.dll</HintPath>
-    </Reference>
     <Reference Include="Mistong.RPCFramework.ThriftClient.Thrift, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Mistong.RPCFramework.ThriftClient.Thrift.dll</HintPath>
@@ -60,6 +57,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceAssembliesResolver.cs" />
+    <Compile Include="ThriftImplement\OrderServiceImplement.cs" />
     <Compile Include="ThriftImplement\UserServiceImplement.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +66,7 @@
     <None Include="services.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="thrift\OrderService.thrift" />
     <None Include="thrift\UserService.thrift" />
   </ItemGroup>
   <ItemGroup>

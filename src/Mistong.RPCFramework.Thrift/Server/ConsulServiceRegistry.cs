@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Consul;
-using Mistong.Logger;
-using Mistong.Logger.Message;
 
 namespace Mistong.RPCFramework.Thrift
 {
@@ -60,7 +58,7 @@ namespace Mistong.RPCFramework.Thrift
                 {
                     if (tmp.Exception != null)
                     {
-                        LogManager.WriteLog(new ApplicationErrorMessage(tmp.Exception, "注册服务时发生错误"));
+                        throw new ServiceRegisterException(_config,"注册服务时发生错误",tmp.Exception);
                     }
                     else if (tmp.IsCanceled)
                     {
@@ -70,22 +68,12 @@ namespace Mistong.RPCFramework.Thrift
                     {
                         if (tmp.Result.StatusCode != System.Net.HttpStatusCode.OK)
                         {
-                            LogManager.WriteLog(new ApplicationMessage
-                            {
-                                Comments = $"注册服务异常 consul:({string.Join(",", _config.Clusters)})",
-                                LogLevel = Logger.Message.LogLevel.Error,
-                                Message = "status code : " + tmp.Result.StatusCode
-                            });
+                            throw new ServiceRegisterException(_config, "status code : " + tmp.Result.StatusCode, tmp.Exception);
                         }
                     }
                     else if (tmp.IsFaulted)
                     {
-                        LogManager.WriteLog(new ApplicationMessage
-                        {
-                            Comments = $"注册服务异常 consul:({string.Join(",", _config.Clusters)})",
-                            LogLevel = Logger.Message.LogLevel.Error,
-                            Message = "注册服务失败"
-                        });
+                        throw new ServiceRegisterException(_config, "注册服务失败", tmp.Exception);
                     }
                 }
             });

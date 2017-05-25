@@ -28,5 +28,4 @@ F:\SourceCode\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\De
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Consul.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Newtonsoft.Json.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Newtonsoft.Json.xml
-E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.Logger.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\services.json
