@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework
 {
-    public class ServiceRegisterException : Exception
+    public class ServiceDiscovererException : Exception
     {
         public RegistrationCenter ConfigCenter { get; private set; }
 
-        public ServiceRegisterException(RegistrationCenter configCenter,string message = "",Exception innerException = null):base(message, innerException)
+        public ServiceDiscovererException(RegistrationCenter configCenter, string message = "", Exception innerException = null):base(message, innerException)
         {
             if (configCenter == null)
                 throw new ArgumentNullException(nameof(configCenter));

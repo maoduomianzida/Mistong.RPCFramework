@@ -41,14 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\IServiceAssembliesResolver.cs" />
+    <Compile Include="Client\IServiceDiscovererConfiguration.cs" />
     <Compile Include="Client\IServiceDiscoverer.cs" />
-    <Compile Include="Config\ConfigCenter.cs" />
+    <Compile Include="Config\RegistrationCenter.cs" />
     <Compile Include="Config\GlobalSetting.cs" />
     <Compile Include="Config\IGlobalStarter.cs" />
     <Compile Include="Config\ServiceConfig.cs" />
+    <Compile Include="Exception\ServiceDiscovererException.cs" />
     <Compile Include="Exception\ServiceRegisterException.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
-    <Compile Include="Server\IServiceContainer.cs" />
+    <Compile Include="IServiceContainer.cs" />
     <Compile Include="Server\IServiceRegistry.cs" />
     <Compile Include="Client\IServiceFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

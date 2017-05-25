@@ -11,10 +11,16 @@ namespace Mistong.RPCFramework
     /// </summary>
     public class ServiceConfig
     {
+        public ServiceConfig()
+        {
+            Server = new List<Service>();
+            Client = new List<Service>();
+        }
+
         /// <summary>
         /// 配置中心信息
         /// </summary>
-        public ConfigCenter ConfigCenter { get; set; }
+        public RegistrationCenter RegistrationCenter { get; set; }
 
         /// <summary>
         /// 服务端配置的服务信息

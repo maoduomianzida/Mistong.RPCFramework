@@ -12,9 +12,14 @@ namespace Mistong.RPCFramework
     public interface IServiceDiscoverer
     {
         /// <summary>
+        /// 注册中心信息
+        /// </summary>
+        RegistrationCenter RegistrationCenter { get; set; }
+
+        /// <summary>
         /// 发现服务
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Service> Discover();
+        IEnumerable<Service> Discover(IEnumerable<ServiceMap> serviceMaps);
     }
 }

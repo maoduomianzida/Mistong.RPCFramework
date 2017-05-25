@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +7,13 @@ using System.Threading.Tasks;
 namespace Mistong.RPCFramework
 {
     /// <summary>
-    /// 从程序集查找服务接口以及实现类
+    /// 客户端服务匹配接口
     /// </summary>
-    public interface IServiceFinder
+    public interface IServiceMatcher
     {
-        IEnumerable<ServiceMap> Find(IEnumerable<Assembly> assemblies);
+        /// <summary>
+        /// 匹配服务
+        /// </summary>
+        void MatchService();
     }
 }

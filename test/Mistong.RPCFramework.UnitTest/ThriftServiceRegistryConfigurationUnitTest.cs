@@ -11,12 +11,12 @@ namespace Mistong.RPCFramework.UnitTest
     [TestClass]
     public class ThriftServiceRegistryConfigurationUnitTest
     {
-        private ConsulServiceRegistryConfiguration _configuration;
+        private ThriftServiceConfiguration _configuration;
 
         [TestInitialize]
         public void Init()
         {
-            _configuration = new ConsulServiceRegistryConfiguration();
+            _configuration = new ThriftServiceConfiguration();
             GlobalSetting.SetContainer(new ThriftServiceContainer());
         }
 
@@ -31,9 +31,9 @@ namespace Mistong.RPCFramework.UnitTest
         [TestMethod]
         public void 测试ThriftServiceConfig成功序列化()
         {
-            ConfigCenter center = new ConsulConfigCenter() { Clusters = new List<string> { "172.16.211.146" } };
+            RegistrationCenter center = new ConsulRegistrationCenter() { Clusters = new List<string> { "172.16.211.146" } };
             List<Service> services = new List<Service> { new ThriftService { Address = "172.16.211.146", Name = "userservice", Port = 9000, ServiceType = typeof(UserServiceImplement)} };
-            ServiceConfig config = new ServiceConfig() { Server = services, ConfigCenter = center };
+            ServiceConfig config = new ServiceConfig() { Server = services, RegistrationCenter = center };
             JsonSerializerSettings setting = new JsonSerializerSettings();
             setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
             setting.Converters.Add(new TypeConverter());
@@ -49,8 +49,8 @@ namespace Mistong.RPCFramework.UnitTest
         public void 测试ConsulServiceRegistry注册()
         {
             ServiceConfig config = _configuration.GetServiceConfig();
-            ConsulServiceRegistry registry = new ConsulServiceRegistry();
-            registry.ConfigCenter = config.ConfigCenter;
+            ThriftServiceRegistry registry = new ThriftServiceRegistry();
+            registry.RegistrationCenter = config.RegistrationCenter;
             registry.Register(config.Server);
         }
 

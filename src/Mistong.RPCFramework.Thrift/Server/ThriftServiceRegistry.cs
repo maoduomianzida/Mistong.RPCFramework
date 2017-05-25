@@ -7,16 +7,16 @@ using Consul;
 
 namespace Mistong.RPCFramework.Thrift
 {
-    public class ConsulServiceRegistry : IServiceRegistry
+    public class ThriftServiceRegistry : IServiceRegistry
     {
         private IConsulClient _client;
-        private ConfigCenter _config;
+        private RegistrationCenter _config;
 
-        public ConsulServiceRegistry()
+        public ThriftServiceRegistry()
         {
         }
 
-        public ConfigCenter ConfigCenter
+        public RegistrationCenter RegistrationCenter
         {
             get
             {
@@ -34,13 +34,13 @@ namespace Mistong.RPCFramework.Thrift
             }
         }
 
-        private void ValidateConfig(ConfigCenter center)
+        private void ValidateConfig(RegistrationCenter center)
         {
-            ConsulConfigCenter consulCenter = center as ConsulConfigCenter;
+            ConsulRegistrationCenter consulCenter = center as ConsulRegistrationCenter;
             if (consulCenter == null)
-                throw new NullReferenceException("无法使用ConsulServiceRegistry注册非consul的配置中心");
+                throw new NullReferenceException("无法使用ConsulRegistrationCenter注册非consul的注册中心");
             if (consulCenter.Clusters == null || consulCenter.Clusters.Count == 0)
-                throw new Exception("未设置配置中心地址");
+                throw new Exception("未设置注册中心地址");
         }
 
         public virtual void Register(ICollection<Service> services)

@@ -10,14 +10,9 @@ namespace Mistong.RPCFramework.Thrift
 {
     public class ThriftServiceFinder : IServiceFinder
     {
-        public virtual IEnumerable<ServiceMap> Find(IServiceAssembliesResolver resolver)
+        public virtual IEnumerable<ServiceMap> Find(IEnumerable<Assembly> assemblies)
         {
-            if (resolver != null)
-            {
-                return resolver.GetAssemblies().SelectMany(Find);
-            }
-
-            return Enumerable.Empty<ServiceMap>();
+            return assemblies.SelectMany(Find);
         }
 
         protected virtual IEnumerable<ServiceMap> Find(Assembly assembly)

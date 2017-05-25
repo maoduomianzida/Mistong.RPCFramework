@@ -42,7 +42,7 @@ namespace Mistong.RPCFramework.Thrift
             {
                 throw new NullReferenceException("IServiceRegistry接口不能为空");
             }
-            registry.ConfigCenter = serviceConfig.ConfigCenter;
+            registry.RegistrationCenter = serviceConfig.RegistrationCenter;
             registry.Register(GetNeedRegisterServices(thriftServices).ToArray());
             ILookup<int, ThriftService> tidyServices = TidyServices(thriftServices);
             foreach(var group in tidyServices)

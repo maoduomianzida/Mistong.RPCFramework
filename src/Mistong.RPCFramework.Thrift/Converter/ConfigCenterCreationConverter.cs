@@ -12,7 +12,7 @@ namespace Mistong.RPCFramework.Thrift
     {
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ConfigCenter).IsAssignableFrom(objectType);
+            return typeof(RegistrationCenter).IsAssignableFrom(objectType);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -20,9 +20,9 @@ namespace Mistong.RPCFramework.Thrift
             if (reader.TokenType == JsonToken.Null) return null;
             JObject obj = serializer.Deserialize<JObject>(reader);
             string type = obj["type"].ToObject<string>();
-            if (type == ConsulConfigCenter.ConfigType)
+            if (type == ConsulRegistrationCenter.RegistrationType)
             {
-                return obj.ToObject(typeof(ConsulConfigCenter));
+                return obj.ToObject(typeof(ConsulRegistrationCenter));
             }
 
             return null;

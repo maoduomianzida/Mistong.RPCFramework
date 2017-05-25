@@ -20,10 +20,17 @@ namespace Mistong.RPCFramework.Thrift
 
         protected virtual void Init()
         {
-            _singleCache.Add(typeof(IServiceRegistryConfiguration), new ConsulServiceRegistryConfiguration());
-            _singleCache.Add(typeof(IServiceRegistry), new ConsulServiceRegistry());
+            ThriftServiceConfiguration configuration = new ThriftServiceConfiguration();
+            _singleCache.Add(typeof(IServiceRegistryConfiguration), configuration);
+            _singleCache.Add(typeof(IServiceRegistry), new ThriftServiceRegistry());
             _singleCache.Add(typeof(IServiceController), new ThriftServiceController());
             _singleCache.Add(typeof(IServiceActivator), new ThriftServiceActivator());
+
+            _singleCache.Add(typeof(IServiceDiscovererConfiguration), configuration);
+            _singleCache.Add(typeof(IServiceAssembliesResolver),new ThriftServiceAssembliesResolver());
+            _singleCache.Add(typeof(IServiceFinder),new ThriftServiceFinder());
+            _singleCache.Add(typeof(IServiceDiscoverer),new ThriftServiceDiscoverer());
+            _singleCache.Add(typeof(IServiceMatcher),new ThriftServiceMatcher());
         }
 
         public virtual void Add(Type type,object instance)
