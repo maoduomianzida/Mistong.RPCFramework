@@ -16,20 +16,20 @@ namespace Mistong.RPCFramework
             Container = container;
         }
 
-        public static IServiceController ServiceController
+        public static IServerController ServiceController
         {
-            get { return Container?.GetService<IServiceController>(); }
+            get { return Container?.GetService<IServerController>(); }
         }
 
-        public static IServiceDiscoverer ServiceDiscoverer
+        public static IClientController ClientController
         {
-            get { return Container?.GetService<IServiceDiscoverer>(); }
+            get { return Container?.GetService<IClientController>(); }
         }
 
         public static void Start(IServiceContainer container)
         {
             SetContainer(container);
-            ServiceDiscoverer.Discover();
+            ClientController.Start();
             ServiceController.Start();
         }
 

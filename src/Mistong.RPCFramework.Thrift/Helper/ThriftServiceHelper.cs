@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using Thrift;
+using System.Reflection;
+using System.IO;
 
 namespace Mistong.RPCFramework.Thrift
 {
     internal static class ThriftServiceHelper
     {
+        private static object _thriftLockObj = new object();
+        private static Assembly _thriftAssembly;
         private static string[] _thriftClassSuffixs = new string[] { "+Iface", "+ISync", "+IAsync" };
 
         /// <summary>
@@ -77,6 +81,42 @@ namespace Mistong.RPCFramework.Thrift
             string suffixs = _thriftClassSuffixs.FirstOrDefault(tmp => type.FullName.EndsWith(tmp));
 
             return suffixs != null;
+        }
+
+        /// <summary>
+        /// 获取应用程序下默认生成的thrift dll
+        /// </summary>
+        /// <returns></returns>
+        public static Assembly GetThriftServiceAssembly()
+        {
+            if(_thriftAssembly == null)
+            {
+                lock(_thriftLockObj)
+                {
+                    if(_thriftAssembly == null)
+                    {
+                        string applicationName = GetApplicationName();
+                        try
+                        {
+                            _thriftAssembly = Assembly.Load(applicationName + ".Thrift");
+                        }
+                        catch (FileNotFoundException)
+                        {
+                        }
+                    }
+                }
+            }
+
+            return _thriftAssembly;
+        }
+
+        private static string GetApplicationName()
+        {
+            string name = AppDomain.CurrentDomain.FriendlyName;
+            int index = name.LastIndexOf(".");
+            name = name.Substring(0, index);
+
+            return name;
         }
     }
 }

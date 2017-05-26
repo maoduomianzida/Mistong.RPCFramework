@@ -9,7 +9,5 @@ namespace Mistong.RPCFramework
     public interface IServiceContainer
     {
         object GetService(Type serviceType);
-
-        IEnumerable<object> GetServices(Type serviceType);
     }
 }

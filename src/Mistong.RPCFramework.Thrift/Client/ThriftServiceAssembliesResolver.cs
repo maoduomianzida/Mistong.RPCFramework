@@ -12,27 +12,11 @@ namespace Mistong.RPCFramework.Thrift
     {
         public IEnumerable<Assembly> GetAssemblies()
         {
-            string applicationName = GetApplicationName();
-            try
-            {
-                Assembly assembly = Assembly.Load(applicationName + ".Thrift");
+            Assembly assembly = ThriftServiceHelper.GetThriftServiceAssembly();
+            if (assembly == null)
+                return Enumerable.Empty<Assembly>();
 
-                return new Assembly[] { assembly };
-            }
-            catch(FileNotFoundException)
-            {
-            }
-
-            return Enumerable.Empty<Assembly>();
-        }
-
-        protected virtual string GetApplicationName()
-        {
-            string name = AppDomain.CurrentDomain.FriendlyName;
-            int index = name.LastIndexOf(".");
-            name = name.Substring(0, index);
-
-            return name;
+            return new Assembly[] { assembly };
         }
     }
 }

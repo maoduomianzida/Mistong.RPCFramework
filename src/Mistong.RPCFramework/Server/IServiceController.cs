@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Mistong.RPCFramework
 {
     /// <summary>
-    /// 服务启动接口
+    /// 服务端启动接口
     /// </summary>
-    public interface IServiceController
+    public interface IServerController
     {
         /// <summary>
         /// 启动服务

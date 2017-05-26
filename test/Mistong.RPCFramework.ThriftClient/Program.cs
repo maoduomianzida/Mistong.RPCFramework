@@ -15,11 +15,13 @@ namespace Mistong.RPCFramework.ThriftClient
     {
         static void Main(string[] args)
         {
-            string name = AppDomain.CurrentDomain.FriendlyName;
-            int index = name.LastIndexOf(".");
-            name = name.Substring(0, index);
-            Console.WriteLine(name);
-            //GlobalSetting.Start(new ThriftServiceContainer());
+            GlobalSetting.Start(new ThriftServiceContainer());
+
+            UserService.Iface userService = GlobalSetting.Container.GetService<UserService.Iface>();
+            //userService.Add(new UserInfo { UserID = 10, UserName = "wg.king", Sex = true });
+
+            UserInfo user = userService.GetUser(10);
+            Console.WriteLine(JsonConvert.SerializeObject(user));
         }
     }
 }

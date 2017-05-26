@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Thrift.Transport;
 
 namespace Mistong.RPCFramework.Thrift
 {
-    public class ThriftServiceMatcher : IServiceMatcher
+    public interface IThriftConnectionPool
     {
-        public void MatchService()
-        {
-            
-        }
+        TTransport GetTransport(Service service);
     }
 }

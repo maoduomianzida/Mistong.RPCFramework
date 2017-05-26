@@ -49,9 +49,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\IServiceMatcher.cs" />
+    <Compile Include="Client\AgentServiceMap.cs" />
+    <Compile Include="Client\IThriftConnectionPool.cs" />
+    <Compile Include="Client\IThriftServiceClientActivator.cs" />
+    <Compile Include="Client\ThriftClientController.cs" />
+    <Compile Include="Client\ThriftConnectionPool.cs" />
     <Compile Include="Client\ThriftServiceAssembliesResolver.cs" />
-    <Compile Include="Client\ThriftServiceMatcher.cs" />
+    <Compile Include="Client\ThriftServiceClientActivator.cs" />
     <Compile Include="Helper\AgentServiceHelper.cs" />
     <Compile Include="Config\ConsulRegistrationCenter.cs" />
     <Compile Include="Converter\ConfigCenterCreationConverter.cs" />
@@ -60,7 +64,7 @@
     <Compile Include="Server\IServiceActivator.cs" />
     <Compile Include="Server\ThriftServiceActivator.cs" />
     <Compile Include="ThriftServiceContainer.cs" />
-    <Compile Include="Server\ThriftServiceController.cs" />
+    <Compile Include="Server\ThriftServerController.cs" />
     <Compile Include="ThriftService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\ThriftServiceRegistryConfiguration.cs" />

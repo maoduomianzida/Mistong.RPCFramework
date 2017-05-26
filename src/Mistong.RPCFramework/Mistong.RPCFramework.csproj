@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\IClientController.cs" />
     <Compile Include="Client\IServiceAssembliesResolver.cs" />
     <Compile Include="Client\IServiceDiscovererConfiguration.cs" />
     <Compile Include="Client\IServiceDiscoverer.cs" />
@@ -58,7 +59,6 @@
     <Compile Include="Server\IServiceController.cs" />
     <Compile Include="Server\IServiceContainerExtension.cs" />
     <Compile Include="Service.cs" />
-    <Compile Include="Client\ServiceContainer.cs" />
     <Compile Include="Client\ServiceMap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

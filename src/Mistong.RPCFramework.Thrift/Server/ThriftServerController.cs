@@ -12,12 +12,12 @@ using Thrift.Transport;
 
 namespace Mistong.RPCFramework.Thrift
 {
-    public class ThriftServiceController : IServiceController
+    public class ThriftServerController : IServerController
     {
         private ICollection<TServer> _servers;
         private AutoResetEvent _waitHanlder;
 
-        public ThriftServiceController()
+        public ThriftServerController()
         {
             _servers = new Collection<TServer>();
             _waitHanlder = new AutoResetEvent(false);
@@ -49,7 +49,10 @@ namespace Mistong.RPCFramework.Thrift
             {
                 StartService(group);
             }
-            _waitHanlder.WaitOne();
+            if(tidyServices.Count > 0)
+            {
+                _waitHanlder.WaitOne();
+            }
         }
 
         protected virtual IEnumerable<ThriftService> GetNeedRegisterServices(IEnumerable<ThriftService> services)

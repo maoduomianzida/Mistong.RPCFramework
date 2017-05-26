@@ -39,7 +39,7 @@ namespace Mistong.RPCFramework.Thrift
                 throw new Exception("未设置注册中心地址");
         }
 
-        private Dictionary<string,AgentService> GetServicesFromConsul()
+        private List<AgentServiceMap> GetServicesFromConsul()
         {
             Task<Dictionary<string, AgentService>> servicesTask = _client.Agent.Services().ContinueWith(task =>
             {
@@ -69,19 +69,45 @@ namespace Mistong.RPCFramework.Thrift
             });
             servicesTask.ConfigureAwait(false);
             servicesTask.Wait(5000);
+            Dictionary<string, AgentService> dic = servicesTask.Result ?? new Dictionary<string, AgentService>(0);
 
-            return servicesTask.Result ?? new Dictionary<string, AgentService>(0);
+            return dic.Select(tmp => new AgentServiceMap(tmp.Value)).Where(tmp => tmp.Tags != null).ToList();
+        }
+
+        protected virtual Service CreateService(AgentServiceMap agentMap, ServiceMap serviceMap)
+        {
+            if (agentMap.Tags.Item1 == "thrift")
+            {
+                return new ThriftService
+                {
+                    Address = agentMap.Service.Address,
+                    Name = agentMap.Service.ID,
+                    Port = agentMap.Service.Port,
+                    ServiceType = serviceMap.Implement
+                };
+            }
+
+            return null;
         }
 
         public IEnumerable<Service> Discover(IEnumerable<ServiceMap> serviceMaps)
         {
-            Dictionary<string, AgentService> serivces = GetServicesFromConsul();
+            List<Service> servicesList = new List<Service>();
+            List<AgentServiceMap> serivces = GetServicesFromConsul();
             foreach (ServiceMap serviceMap in serviceMaps)
             {
-                
+                AgentServiceMap agentMap = serivces.SingleOrDefault(tmp => serviceMap.InheritInterface(tmp.Tags.Item2));
+                if (agentMap != null)
+                {
+                    Service usableService = CreateService(agentMap, serviceMap);
+                    if (usableService != null)
+                    {
+                        servicesList.Add(usableService);
+                    }
+                }
             }
 
-            return null;
+            return servicesList;
         }
     }
 }

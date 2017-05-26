@@ -8,100 +8,80 @@ namespace Mistong.RPCFramework.Thrift
 {
     public class ThriftServiceContainer : IServiceContainer
     {
-        private Dictionary<Type, object> _singleCache;
-        private Dictionary<Type, IEnumerable<object>> _multipleCache;
+        private Dictionary<Type, object> _cache;
+        private Dictionary<Type, Func<Type,object>> _funcCache;
 
         public ThriftServiceContainer()
         {
-            _singleCache = new Dictionary<Type, object>();
-            _multipleCache = new Dictionary<Type, IEnumerable<object>>();
+            _cache = new Dictionary<Type, object>();
+            _funcCache = new Dictionary<Type, Func<Type, object>>();
             Init();
         }
 
         protected virtual void Init()
         {
             ThriftServiceConfiguration configuration = new ThriftServiceConfiguration();
-            _singleCache.Add(typeof(IServiceRegistryConfiguration), configuration);
-            _singleCache.Add(typeof(IServiceRegistry), new ThriftServiceRegistry());
-            _singleCache.Add(typeof(IServiceController), new ThriftServiceController());
-            _singleCache.Add(typeof(IServiceActivator), new ThriftServiceActivator());
+            _cache.Add(typeof(IServiceRegistryConfiguration), configuration);
+            _cache.Add(typeof(IServiceRegistry), new ThriftServiceRegistry());
+            _cache.Add(typeof(IServerController), new ThriftServerController());
+            _cache.Add(typeof(IServiceActivator), new ThriftServiceActivator());
 
-            _singleCache.Add(typeof(IServiceDiscovererConfiguration), configuration);
-            _singleCache.Add(typeof(IServiceAssembliesResolver),new ThriftServiceAssembliesResolver());
-            _singleCache.Add(typeof(IServiceFinder),new ThriftServiceFinder());
-            _singleCache.Add(typeof(IServiceDiscoverer),new ThriftServiceDiscoverer());
-            _singleCache.Add(typeof(IServiceMatcher),new ThriftServiceMatcher());
+            _cache.Add(typeof(IServiceDiscovererConfiguration), configuration);
+            _cache.Add(typeof(IServiceAssembliesResolver),new ThriftServiceAssembliesResolver());
+            _cache.Add(typeof(IServiceFinder),new ThriftServiceFinder());
+            _cache.Add(typeof(IServiceDiscoverer),new ThriftServiceDiscoverer());
+            _cache.Add(typeof(IThriftClientActivator),new ThriftClientActivator());
+            _cache.Add(typeof(IThriftConnectionPool),new ThriftConnectionPool());
+            _cache.Add(typeof(IClientController), new ThriftClientController());
+        }
+
+        public virtual void Add(Type type,Func<Type,object> func)
+        {
+            if (_funcCache.ContainsKey(type))
+            {
+                throw new Exception($"{type.FullName}已经存在，无法添加");
+            }
+            _funcCache.Add(type, func);
         }
 
         public virtual void Add(Type type,object instance)
         {
-            if(_singleCache.ContainsKey(type))
+            if(_cache.ContainsKey(type))
             {
                 throw new Exception($"{type.FullName}已经存在，无法添加");
             }
-            _singleCache.Add(type,instance);
-        }
-
-        public virtual void Add(Type type, IEnumerable<object> instances)
-        {
-            if (_multipleCache.ContainsKey(type))
-            {
-                throw new Exception($"{type.FullName}已经存在，无法添加");
-            }
-            _multipleCache.Add(type, instances);
+            _cache.Add(type,instance);
         }
 
         public virtual void Reaplce(Type type,object instance)
         {
-            if(_singleCache.ContainsKey(type))
+            if(_cache.ContainsKey(type))
             {
-                _singleCache[type] = instance;
+                _cache[type] = instance;
             }
             else
             {
-                _singleCache.Add(type,instance);
-            }
-        }
-
-        public virtual void Reaplce(Type type,IEnumerable<object> instances)
-        {
-            if (_multipleCache.ContainsKey(type))
-            {
-                _multipleCache[type] = instances;
-            }
-            else
-            {
-                _multipleCache.Add(type, instances);
+                _cache.Add(type,instance);
             }
         }
 
         public virtual void Remove(Type type)
         {
-            if(_singleCache.ContainsKey(type))
+            if(_cache.ContainsKey(type))
             {
-                _singleCache.Remove(type);
-            }
-            else if(_multipleCache.ContainsKey(type))
-            {
-                _multipleCache.Remove(type);
+                _cache.Remove(type);
             }
         }
         
         public virtual object GetService(Type serviceType)
         {
-            if(_singleCache.ContainsKey(serviceType))
+            if(_cache.ContainsKey(serviceType))
             {
-                return _singleCache[serviceType];
+                return _cache[serviceType];
             }
-
-            return null;
-        }
-
-        public virtual IEnumerable<object> GetServices(Type serviceType)
-        {
-            if (_multipleCache.ContainsKey(serviceType))
+            else if(_funcCache.ContainsKey(serviceType))
             {
-                return _multipleCache[serviceType];
+                return _funcCache[serviceType]?.Invoke(serviceType);
             }
 
             return null;

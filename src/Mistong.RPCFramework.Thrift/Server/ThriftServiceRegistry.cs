@@ -52,33 +52,36 @@ namespace Mistong.RPCFramework.Thrift
 
                 return tmpTask;
             }).ToArray();
-            Task task = Task.Factory.ContinueWhenAll(taskArr, tasks =>
+            if (taskArr.Length > 0)
             {
-                foreach (Task<WriteResult> tmp in tasks)
+                Task task = Task.Factory.ContinueWhenAll(taskArr, tasks =>
                 {
-                    if (tmp.Exception != null)
+                    foreach (Task<WriteResult> tmp in tasks)
                     {
-                        throw new ServiceRegisterException(_config,"注册服务时发生错误",tmp.Exception);
-                    }
-                    else if (tmp.IsCanceled)
-                    {
-                        return;
-                    }
-                    else if (tmp.IsCompleted)
-                    {
-                        if (tmp.Result.StatusCode != System.Net.HttpStatusCode.OK)
+                        if (tmp.Exception != null)
                         {
-                            throw new ServiceRegisterException(_config, "status code : " + tmp.Result.StatusCode, tmp.Exception);
+                            throw new ServiceRegisterException(_config, "注册服务时发生错误", tmp.Exception);
+                        }
+                        else if (tmp.IsCanceled)
+                        {
+                            return;
+                        }
+                        else if (tmp.IsCompleted)
+                        {
+                            if (tmp.Result.StatusCode != System.Net.HttpStatusCode.OK)
+                            {
+                                throw new ServiceRegisterException(_config, "status code : " + tmp.Result.StatusCode, tmp.Exception);
+                            }
+                        }
+                        else if (tmp.IsFaulted)
+                        {
+                            throw new ServiceRegisterException(_config, "注册服务失败", tmp.Exception);
                         }
                     }
-                    else if (tmp.IsFaulted)
-                    {
-                        throw new ServiceRegisterException(_config, "注册服务失败", tmp.Exception);
-                    }
-                }
-            });
-            task.ConfigureAwait(false);
-            task.Wait(5000);
+                });
+                task.ConfigureAwait(false);
+                task.Wait(5000);
+            }
         }
     }
 }
