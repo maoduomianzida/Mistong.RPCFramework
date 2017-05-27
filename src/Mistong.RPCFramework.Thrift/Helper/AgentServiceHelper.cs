@@ -32,12 +32,28 @@ namespace Mistong.RPCFramework.Thrift
             {
                 string serviceType = serviceFlag[0];
                 string serviceInterfaceStr = serviceFlag[1];
-                Assembly assembly = ThriftServiceHelper.GetThriftServiceAssembly();
-                if(assembly != null)
+                Type interfaceType = GetTypeFromAssemblies(serviceInterfaceStr);
+                if (interfaceType != null)
+                    return new Tuple<string, Type>(serviceType, interfaceType);
+            }
+
+            return null;
+        }
+
+        public static Type GetTypeFromAssemblies(string serviceInterfaceStr)
+        {
+            IServiceAssembliesResolver assembliesResolver = GlobalSetting.GetService<IServiceAssembliesResolver>();
+            if(assembliesResolver == null)
+            {
+                throw new NullReferenceException("IServiceAssembliesResolver接口不能为空");
+            }
+            IEnumerable<Assembly> assemblies = assembliesResolver.GetAssemblies();
+            foreach(Assembly assembly in assemblies.Where(tmp => tmp != null))
+            {
+                Type interfaceType = assembly.GetType(serviceInterfaceStr);
+                if(interfaceType != null)
                 {
-                    Type interfaceType = assembly.GetType(serviceInterfaceStr);
-                    if (interfaceType != null)
-                        return new Tuple<string, Type>(serviceType,interfaceType);
+                    return interfaceType;
                 }
             }
 

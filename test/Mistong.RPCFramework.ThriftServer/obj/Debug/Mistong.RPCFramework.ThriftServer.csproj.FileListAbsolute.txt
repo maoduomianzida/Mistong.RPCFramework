@@ -15,3 +15,4 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\o
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.csprojResolveAssemblyReference.cache
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\Mistong.RPCFramework.ThriftClient.Thrift.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\Mistong.RPCFramework.ThriftClient.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\Thrift.pdb

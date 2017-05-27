@@ -10,6 +10,8 @@ namespace Mistong.RPCFramework.Thrift
 {
     public class ThriftConnectionPool : IThriftConnectionPool
     {
+
+
         public TTransport GetTransport(Service service)
         {
             return new TSocket(new TcpClient(service.Address,service.Port));

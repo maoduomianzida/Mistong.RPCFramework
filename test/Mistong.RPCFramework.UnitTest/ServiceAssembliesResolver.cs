@@ -11,7 +11,7 @@ namespace Mistong.RPCFramework.ThriftClient
     {
         public IEnumerable<Assembly> GetAssemblies()
         {
-            return new Assembly[] { Assembly.Load("Mistong.RPCFramework.ThriftClient.Thrift") };
+            return new Assembly[] { Assembly.Load("Mistong.RPCFramework.UnitTest.Thrift") };
         }
     }
 }

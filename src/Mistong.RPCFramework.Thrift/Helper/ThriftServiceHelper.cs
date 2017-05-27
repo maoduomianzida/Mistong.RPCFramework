@@ -96,6 +96,7 @@ namespace Mistong.RPCFramework.Thrift
                     if(_thriftAssembly == null)
                     {
                         string applicationName = GetApplicationName();
+                        if (applicationName == null) return null;
                         try
                         {
                             _thriftAssembly = Assembly.Load(applicationName + ".Thrift");
@@ -114,6 +115,7 @@ namespace Mistong.RPCFramework.Thrift
         {
             string name = AppDomain.CurrentDomain.FriendlyName;
             int index = name.LastIndexOf(".");
+            if (index == -1) return null;
             name = name.Substring(0, index);
 
             return name;

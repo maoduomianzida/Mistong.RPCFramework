@@ -22,5 +22,5 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\obj\D
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\obj\Debug\Mistong.RPCFramework.UnitTest.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\obj\Debug\Mistong.RPCFramework.UnitTest.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Mistong.RPCFramework.UnitTest.Thrift.pdb
-E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Mistong.Logger.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\services.json
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.UnitTest\bin\Debug\Thrift.pdb

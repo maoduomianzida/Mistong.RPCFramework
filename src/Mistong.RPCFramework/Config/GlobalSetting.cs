@@ -33,6 +33,11 @@ namespace Mistong.RPCFramework
             ServiceController.Start();
         }
 
+        public static T GetService<T>() where T : class
+        {
+            return Container?.GetService<T>();
+        }
+
         public static void Stop()
         {
             ServiceController.Stop();
