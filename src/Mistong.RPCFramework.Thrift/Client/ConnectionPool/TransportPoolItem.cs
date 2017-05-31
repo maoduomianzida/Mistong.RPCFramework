@@ -7,9 +7,9 @@ using Thrift.Transport;
 
 namespace Mistong.RPCFramework.Thrift
 {
-    public class TransportPoolItem
+    internal class TransportPoolItem
     {
-        public TTransport Transport { get; private set; }
+        public TTransport Transport { get; set; }
 
         public bool IsFree { get; set; }
     }

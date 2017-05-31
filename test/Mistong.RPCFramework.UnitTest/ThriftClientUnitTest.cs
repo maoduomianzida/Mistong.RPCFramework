@@ -140,5 +140,17 @@ namespace Mistong.RPCFramework.UnitTest
             _container.Reaplce(typeof(IThriftConnectionPool), new FreshConnectionPool());
             Test();
         }
+
+        [TestMethod]
+        public void 加锁限制每次只有一个线程使用TTransport进行发送()
+        {
+
+        }
+
+        [TestMethod]
+        public void 使用连接池内缓存的TTransport进行请求()
+        {
+            Test();
+        }
     }
 }

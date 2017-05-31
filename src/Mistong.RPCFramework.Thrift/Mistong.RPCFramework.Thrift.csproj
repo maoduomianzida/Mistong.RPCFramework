@@ -47,7 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\AgentServiceMap.cs" />
+    <Compile Include="Client\ConnectionPool\DecorateTransport.cs" />
     <Compile Include="Client\ConnectionPool\IThriftConnectionPool.cs" />
+    <Compile Include="Client\ConnectionPool\ThriftConnectionStore.cs" />
+    <Compile Include="Client\ConnectionPool\ThriftServiceEqualityComparer.cs" />
+    <Compile Include="Client\ConnectionPool\TransportPoolItemCollection.cs" />
     <Compile Include="Client\IThriftServiceClientActivator.cs" />
     <Compile Include="Client\ThriftClientController.cs" />
     <Compile Include="Client\ConnectionPool\ThriftConnectionPool.cs" />

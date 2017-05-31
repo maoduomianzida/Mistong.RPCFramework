@@ -61,6 +61,7 @@
     <Compile Include="FreshConnectionPool.cs" />
     <Compile Include="ServiceAssembliesResolver.cs" />
     <Compile Include="SingletonConnectionPool.cs" />
+    <Compile Include="SingletonLockConnectionPool.cs" />
     <Compile Include="ThriftClientUnitTest.cs" />
     <Compile Include="ThriftServiceRegistryConfigurationUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -31,7 +31,7 @@ namespace Mistong.RPCFramework.Thrift
             _cache.Add(typeof(IServiceFinder),new ThriftServiceFinder());
             _cache.Add(typeof(IServiceDiscoverer),new ThriftServiceDiscoverer());
             _cache.Add(typeof(IThriftClientActivator),new ThriftClientActivator());
-            _cache.Add(typeof(IThriftConnectionPool),new ThriftConnectionPool());
+            _cache.Add(typeof(IThriftConnectionPool),new ThriftConnectionPool(50));
             _cache.Add(typeof(IClientController), new ThriftClientController());
         }
 

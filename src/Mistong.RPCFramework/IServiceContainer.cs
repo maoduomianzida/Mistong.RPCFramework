@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework
 {
-    public interface IServiceContainer
+    public interface IServiceContainer : IServiceProvider
     {
-        object GetService(Type serviceType);
     }
 }
