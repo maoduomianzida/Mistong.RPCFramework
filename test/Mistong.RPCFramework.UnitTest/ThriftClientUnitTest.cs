@@ -6,6 +6,7 @@ using Mistong.RPCFramework.Thrift;
 using Mistong.Services.UserService;
 using Mistong.RPCFramework.ThriftClient;
 using System.Threading;
+using System.Linq;
 
 namespace Mistong.RPCFramework.UnitTest
 {
@@ -74,6 +75,8 @@ namespace Mistong.RPCFramework.UnitTest
         {
             UserService.Iface userService = GlobalSetting.GetService<UserService.Iface>();
             Assert.AreEqual(true, userService.Add(new UserInfo { UserID = 10, UserName = "wg.king", Sex = true }));
+            IDisposable dis = userService as IDisposable;
+            dis?.Dispose();
         }
 
         [TestMethod]
@@ -90,7 +93,7 @@ namespace Mistong.RPCFramework.UnitTest
 
         private void Test()
         {
-            int threadCount = 400;
+            int threadCount = 2000;
             int count = 0;
             for (int i = 0; i < threadCount; i++)
             {
@@ -142,15 +145,55 @@ namespace Mistong.RPCFramework.UnitTest
         }
 
         [TestMethod]
-        public void 加锁限制每次只有一个线程使用TTransport进行发送()
-        {
-
-        }
-
-        [TestMethod]
         public void 使用连接池内缓存的TTransport进行请求()
         {
             Test();
+            ThriftConnectionPool pool = GlobalSetting.GetService<IThriftConnectionPool>() as ThriftConnectionPool;
+            foreach(var item in pool.ConnectionStore.ConnectionPool)
+            {
+                Console.WriteLine("连接池内的TTransport：" + item.Value.Count);
+            }
+        }
+
+        [TestMethod]
+        public void 使用连接池内缓存的TTransport请求_线程延时以达到最大的缓存限制()
+        {
+            int threadCount = 100;
+            int count = 0;
+            for (int i = 0; i < threadCount; i++)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    UserService.Iface userService = GlobalSetting.GetService<UserService.Iface>();
+                    for (int j = 0; j < 10; j++)
+                    {
+                        UserInfo user = userService.GetUser(10);
+                    }
+                    Thread.Sleep(1000);
+                    IDisposable dispose = userService as IDisposable;
+                    dispose.Dispose();
+                    Interlocked.Increment(ref count);
+                });
+                thread.Start();
+            }
+            bool timeout = false;
+            //Timer timer = new Timer((state) => timeout = true,null,10000,-1);
+            while (count < threadCount && !timeout)
+            {
+            }
+            if (timeout)
+            {
+                Console.WriteLine($"超时:执行成功{count}次");
+            }
+            else
+            {
+                Console.WriteLine($"正常结束:执行成功{count}次");
+            }
+            ThriftConnectionPool pool = GlobalSetting.GetService<IThriftConnectionPool>() as ThriftConnectionPool;
+            foreach (var item in pool.ConnectionStore.ConnectionPool)
+            {
+                Console.WriteLine("连接池内的TTransport：" + item.Value.Count);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Thrift.Transport;
 
@@ -12,39 +13,77 @@ namespace Mistong.RPCFramework.Thrift
     {
         private IDictionary<ThriftService, TransportPoolItemCollection> _connectionPool;
         private readonly int _connectionLimit;
+        private int _waitFreeMillisecond;
+        private int _waitFreeTimes;
 
-        public ThriftConnectionStore(int connectionLimit)
+        internal IDictionary<ThriftService, TransportPoolItemCollection> ConnectionPool
+        {
+            get
+            {
+                return _connectionPool;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionLimit">同一个地址端口下的最大thrift连接数</param>
+        /// <param name="waitFreeMillisecond">达到最大连接数后，等待其它连接释放的超时时间（毫秒）</param>
+        /// <param name="waitFreeTimes">达到最大连接数后，尝试等待其它线程释放连接的次数</param>
+        public ThriftConnectionStore(int connectionLimit, int waitFreeMillisecond, int waitFreeTimes)
         {
             Contract.Assert(connectionLimit > 0);
             _connectionPool = new Dictionary<ThriftService, TransportPoolItemCollection>(new ThriftServiceEqualityComparer());
             _connectionLimit = connectionLimit;
+            _waitFreeMillisecond = waitFreeMillisecond;
+            _waitFreeTimes = waitFreeTimes;
         }
 
-        public TTransport GetOrAdd(ThriftService service,Func<ThriftService, TTransport> createAction)
+        public TTransport GetOrAdd(ThriftService service, Func<ThriftService, TTransport> createAction)
         {
             Contract.Assert(service != null && createAction != null);
             TransportPoolItem item = null;
             lock (this)
             {
-                if(_connectionPool.ContainsKey(service))
+                if (_connectionPool.ContainsKey(service))
                 {
-                    item  = _connectionPool[service].GetUsableTransport(() => createAction(service));
+                    int waitTimes = 0;
+                    while (true)
+                    {
+                        item = _connectionPool[service].GetUsableTransport(() => createAction(service));
+                        if (item == null)
+                        {
+                            if (waitTimes < _waitFreeTimes)
+                            {
+                                waitTimes++;
+                                Monitor.Wait(this, _waitFreeMillisecond);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
                 }
                 else
                 {
                     TransportPoolItemCollection collection = new TransportPoolItemCollection(_connectionLimit);
                     TTransport transport = createAction(service);
-                    if(transport != null)
+                    if (transport != null)
                     {
                         item = new TransportPoolItem { Transport = transport, IsFree = false };
                         collection.Add(item);
                     }
-                    _connectionPool.Add(service,collection);
+                    _connectionPool.Add(service, collection);
                 }
             }
-            if(item != null)
+            if (item != null)
             {
-                return new DecorateTransport(item.Transport,this,service,item);
+                return new DecorateTransport(item.Transport, this, service, item);
             }
 
             return null;
@@ -52,9 +91,13 @@ namespace Mistong.RPCFramework.Thrift
 
         public void ReleaseTransport(ThriftService service, TransportPoolItem item)
         {
-            if (_connectionPool.ContainsKey(service))
+            lock (this)
             {
-                _connectionPool[service].SetFree(item);
+                if (_connectionPool.ContainsKey(service))
+                {
+                    _connectionPool[service].SetFree(item);
+                    Monitor.Pulse(this);
+                }
             }
         }
     }

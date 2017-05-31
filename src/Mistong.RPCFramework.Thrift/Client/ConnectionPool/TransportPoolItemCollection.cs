@@ -11,18 +11,16 @@ using Thrift.Transport;
 
 namespace Mistong.RPCFramework.Thrift
 {
-    internal class TransportPoolItemCollection
+    internal class TransportPoolItemCollection : IEnumerable<TransportPoolItem>
     {
         private ICollection<TransportPoolItem> _collection;
         private int _maxLength;
-        private AutoResetEvent _waitHandler;
 
         public TransportPoolItemCollection(int maxLength)
         {
             Contract.Assert(maxLength > 0);
             _collection = new Collection<TransportPoolItem>();
             _maxLength = maxLength;
-            _waitHandler = new AutoResetEvent(false);
         }
 
         public int Count
@@ -61,25 +59,17 @@ namespace Mistong.RPCFramework.Thrift
         public TransportPoolItem GetUsableTransport(Func<TTransport> createAction)
         {
             Contract.Assert(createAction != null);
-            TransportPoolItem item = _collection.SingleOrDefault(tmp => tmp.IsFree);
-            if (item == null)
+            TransportPoolItem item = _collection.FirstOrDefault(tmp => tmp.IsFree);
+            if (item == null && CanAdd())
             {
-                if(CanAdd())
+                TTransport transport = createAction();
+                if (transport != null)
                 {
-                    TTransport transport = createAction();
-                    if (transport != null)
+                    TransportPoolItem newItem = new TransportPoolItem { Transport = transport };
+                    if (Add(newItem))
                     {
-                        TransportPoolItem newItem = new TransportPoolItem { Transport = transport };
-                        if (Add(newItem))
-                        {
-                            item = newItem;
-                        }
+                        item = newItem;
                     }
-                }
-                else
-                {
-                    _waitHandler.WaitOne();
-                    item = _collection.SingleOrDefault(tmp => tmp.IsFree);
                 }
             }
             if (item != null)
@@ -94,7 +84,16 @@ namespace Mistong.RPCFramework.Thrift
         {
             Contract.Assert(item != null);
             item.IsFree = true;
-            _waitHandler.Set();
+        }
+
+        public IEnumerator<TransportPoolItem> GetEnumerator()
+        {
+            return _collection.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _collection.GetEnumerator();
         }
     }
 }
