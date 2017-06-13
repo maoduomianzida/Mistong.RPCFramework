@@ -9,7 +9,6 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\b
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Debug\Mistong.RPCFramework.ThriftClient.csprojResolveAssemblyReference.cache
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Debug\Mistong.RPCFramework.ThriftClient.exe
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Debug\Mistong.RPCFramework.ThriftClient.pdb
-E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.Thrift.pdb
 F:\SourceCode\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.exe.config
 F:\SourceCode\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.exe
 F:\SourceCode\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.pdb
@@ -29,3 +28,5 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\b
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Newtonsoft.Json.dll
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Newtonsoft.Json.xml
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\services.json
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Debug\Mistong.RPCFramework.ThriftClient.Thrift.pdb

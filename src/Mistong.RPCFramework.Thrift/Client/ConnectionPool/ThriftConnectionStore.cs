@@ -71,11 +71,11 @@ namespace Mistong.RPCFramework.Thrift
                 }
                 else
                 {
-                    TransportPoolItemCollection collection = new TransportPoolItemCollection(_connectionLimit);
+                    TransportPoolItemCollection collection = new TransportPoolItemCollection(_connectionLimit,TimeSpan.FromMinutes(15));
                     TTransport transport = createAction(service);
                     if (transport != null)
                     {
-                        item = new TransportPoolItem { Transport = transport, IsFree = false };
+                        item = new TransportPoolItem { Transport = transport, IsFree = false, LastUseTime = DateTime.Now };
                         collection.Add(item);
                     }
                     _connectionPool.Add(service, collection);

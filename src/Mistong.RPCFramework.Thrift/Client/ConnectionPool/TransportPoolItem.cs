@@ -11,6 +11,14 @@ namespace Mistong.RPCFramework.Thrift
     {
         public TTransport Transport { get; set; }
 
+        /// <summary>
+        /// 是否空闲
+        /// </summary>
         public bool IsFree { get; set; }
+
+        /// <summary>
+        /// 上次使用时间
+        /// </summary>
+        public DateTime LastUseTime { get; set; }
     }
 }

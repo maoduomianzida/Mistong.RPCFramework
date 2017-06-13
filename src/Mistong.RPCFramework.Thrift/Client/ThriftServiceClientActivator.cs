@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Thrift;
 using Thrift.Protocol;
 using Thrift.Transport;
 
@@ -49,8 +50,15 @@ namespace Mistong.RPCFramework.Thrift
                 transport.Open();
             TProtocol protocol = new TBinaryProtocol(transport);
             TMultiplexedProtocol multiplexedProtocol = new TMultiplexedProtocol(protocol, thriftService.Name);
+            object instance = Activator.CreateInstance(thriftService.ServiceType, multiplexedProtocol);
+            IDynamicProxyBuilder proxyBuilder = GlobalSetting.GetService<IDynamicProxyBuilder>();
+            if(proxyBuilder == null)
+            {
+                return instance;
+            }
+            Type proxyType = proxyBuilder.CreateProxy(thriftService.ServiceInterfaceType);
 
-            return Activator.CreateInstance(thriftService.ServiceType, multiplexedProtocol);
+            return Activator.CreateInstance(proxyType,instance);
         }
 
         protected virtual Service FindService(Type thriftType)

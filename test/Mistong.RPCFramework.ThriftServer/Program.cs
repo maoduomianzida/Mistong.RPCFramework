@@ -11,7 +11,8 @@ namespace Mistong.RPCFramework.ThriftServer
     {
         static void Main(string[] args)
         {
-            GlobalSetting.Start(new ThriftServiceContainer());
+            ThriftServiceContainer cotainer = new ThriftServiceContainer();
+            GlobalSetting.Start(cotainer);
         }
     }
 }

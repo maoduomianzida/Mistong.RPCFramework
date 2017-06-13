@@ -15,12 +15,14 @@ namespace Mistong.RPCFramework.Thrift
     {
         private ICollection<TransportPoolItem> _collection;
         private int _maxLength;
+        private TimeSpan _overdueInterval;
 
-        public TransportPoolItemCollection(int maxLength)
+        public TransportPoolItemCollection(int maxLength,TimeSpan overdueInterval)
         {
             Contract.Assert(maxLength > 0);
             _collection = new Collection<TransportPoolItem>();
             _maxLength = maxLength;
+            _overdueInterval = overdueInterval;
         }
 
         public int Count
@@ -39,11 +41,6 @@ namespace Mistong.RPCFramework.Thrift
             }
 
             return false;
-        }
-
-        public void Clear()
-        {
-            _collection.Clear();
         }
 
         public bool CanAdd()
@@ -65,7 +62,7 @@ namespace Mistong.RPCFramework.Thrift
                 TTransport transport = createAction();
                 if (transport != null)
                 {
-                    TransportPoolItem newItem = new TransportPoolItem { Transport = transport };
+                    TransportPoolItem newItem = new TransportPoolItem { Transport = transport , LastUseTime = DateTime.Now };
                     if (Add(newItem))
                     {
                         item = newItem;
@@ -75,9 +72,25 @@ namespace Mistong.RPCFramework.Thrift
             if (item != null)
             {
                 item.IsFree = false;
+                ClearOverdueTransportItem();
             }
 
             return item;
+        }
+
+        public void Remove(TransportPoolItem item)
+        {
+            Contract.Assert(item != null);
+        }
+
+        protected void ClearOverdueTransportItem()
+        {
+            DateTime now = DateTime.Now;
+            TransportPoolItem[] items = _collection.Where(tmp => tmp.IsFree && (now - tmp.LastUseTime) > _overdueInterval).ToArray();
+            foreach(TransportPoolItem item in items)
+            {
+
+            }
         }
 
         public void SetFree(TransportPoolItem item)

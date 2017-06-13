@@ -49,10 +49,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Thrift, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Source_Code\CSharp.Thrift\src\bin\Debug\Thrift.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelfServiceAssembliesResolver.cs" />
     <Compile Include="ThriftImplement\OrderServiceImplement.cs" />
     <Compile Include="ThriftImplement\UserServiceImplement.cs" />
   </ItemGroup>
@@ -66,10 +71,6 @@
     <None Include="thrift\UserService.thrift" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Source_Code\CSharp.Thrift\src\Thrift.45.csproj">
-      <Project>{ebce35da-cf6a-42bc-a357-a9c09b534299}</Project>
-      <Name>Thrift.45</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Mistong.RPCFramework.Thrift\Mistong.RPCFramework.Thrift.csproj">
       <Project>{038e41c2-04f1-483a-9ccc-04f682b80ac2}</Project>
       <Name>Mistong.RPCFramework.Thrift</Name>
@@ -78,6 +79,9 @@
       <Project>{e6f3aa6d-4b38-4121-b551-37f52a0ad765}</Project>
       <Name>Mistong.RPCFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="thriftcode\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildToolsPath)\thrift\ThriftAutoGenerate.targets" />

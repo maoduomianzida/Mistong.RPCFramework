@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,15 @@ namespace Mistong.RPCFramework.Thrift
     {
         private Dictionary<Type, object> _cache;
         private Dictionary<Type, Func<Type, object>> _funcCache;
+        private ICollection<FilterInfo> _filters;
+
+        public ICollection<FilterInfo> Filters { get { return _filters; } }
 
         public ThriftServiceContainer()
         {
             _cache = new Dictionary<Type, object>();
             _funcCache = new Dictionary<Type, Func<Type, object>>();
+            _filters = new Collection<FilterInfo>();
             Init();
         }
 
@@ -33,6 +38,7 @@ namespace Mistong.RPCFramework.Thrift
             _cache.Add(typeof(IThriftClientActivator), new ThriftClientActivator());
             _cache.Add(typeof(IThriftConnectionPool), new ThriftConnectionPool(50, 3 * 1000, 3));
             _cache.Add(typeof(IClientController), new ThriftClientController());
+            _cache.Add(typeof(IDynamicProxyBuilder), new ThriftDynamicProxy("Mistong.RPCFramework.Thrift"));
         }
 
         public virtual void Add(Type type, Func<Type, object> func)
