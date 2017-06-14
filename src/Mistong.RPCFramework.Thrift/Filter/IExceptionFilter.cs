@@ -8,6 +8,6 @@ namespace Mistong.RPCFramework.Thrift
 {
     public interface IExceptionFilter
     {
-        T HandException<T>(Exception err);
+        T HandException<T>(ExceptionContext context);
     }
 }

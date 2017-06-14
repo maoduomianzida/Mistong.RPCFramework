@@ -11,15 +11,13 @@ namespace Mistong.RPCFramework.Thrift
     {
         private Dictionary<Type, object> _cache;
         private Dictionary<Type, Func<Type, object>> _funcCache;
-        private ICollection<FilterInfo> _filters;
-
-        public ICollection<FilterInfo> Filters { get { return _filters; } }
+        public FilterCollection Filters { get; private set; }
 
         public ThriftServiceContainer()
         {
             _cache = new Dictionary<Type, object>();
             _funcCache = new Dictionary<Type, Func<Type, object>>();
-            _filters = new Collection<FilterInfo>();
+            Filters = new FilterCollection();
             Init();
         }
 

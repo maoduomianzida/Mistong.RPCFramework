@@ -60,10 +60,14 @@
     <Compile Include="Client\ThriftServiceAssembliesResolver.cs" />
     <Compile Include="Client\ThriftServiceClientActivator.cs" />
     <Compile Include="Client\ConnectionPool\TransportPoolItem.cs" />
-    <Compile Include="Extension\IThriftContainerExtension.cs" />
+    <Compile Include="Extension\IServiceContainerExtension.cs" />
+    <Compile Include="Filter\ExceptionContext.cs" />
+    <Compile Include="Filter\FilterCollection.cs" />
+    <Compile Include="Filter\FilterComparer.cs" />
     <Compile Include="Filter\FilterInfo.cs" />
     <Compile Include="Filter\IActionFilter.cs" />
     <Compile Include="Filter\IExceptionFilter.cs" />
+    <Compile Include="Filter\MissingResultExceptionFilter.cs" />
     <Compile Include="Helper\AgentServiceHelper.cs" />
     <Compile Include="Config\ConsulRegistrationCenter.cs" />
     <Compile Include="Converter\ConfigCenterCreationConverter.cs" />
