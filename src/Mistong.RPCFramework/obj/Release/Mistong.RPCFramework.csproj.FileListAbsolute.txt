@@ -1,0 +1,4 @@
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\bin\Release\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\bin\Release\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Release\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Release\Mistong.RPCFramework.pdb

@@ -35,6 +35,7 @@ namespace Mistong.RPCFramework.Thrift
                 throw new NullReferenceException($"未找到类型{thriftType.FullName}的服务");
             }
             TTransport transport = connectionPool.GetTransport(service);
+            if (transport == null) throw new ThriftConnectionFullException();
 
             return CreateInstance(service, transport);
         }
@@ -52,13 +53,13 @@ namespace Mistong.RPCFramework.Thrift
             TMultiplexedProtocol multiplexedProtocol = new TMultiplexedProtocol(protocol, thriftService.Name);
             object instance = Activator.CreateInstance(thriftService.ServiceType, multiplexedProtocol);
             IDynamicProxyBuilder proxyBuilder = GlobalSetting.GetService<IDynamicProxyBuilder>();
-            if(proxyBuilder == null)
+            if (proxyBuilder == null)
             {
                 return instance;
             }
             Type proxyType = proxyBuilder.CreateProxy(thriftService.ServiceInterfaceType);
 
-            return Activator.CreateInstance(proxyType,instance);
+            return Activator.CreateInstance(proxyType, instance);
         }
 
         protected virtual Service FindService(Type thriftType)
@@ -72,7 +73,7 @@ namespace Mistong.RPCFramework.Thrift
             ThriftServiceContainer thriftContainer = GlobalSetting.Container as ThriftServiceContainer;
             if (thriftContainer == null)
                 throw new NullReferenceException("IServiceContainer接口无法转换成ThriftServiceContainer");
-            foreach(ThriftService servic in _services)
+            foreach (ThriftService servic in _services)
             {
                 thriftContainer.Add(servic.ServiceInterfaceType, type => Create(type));
             }

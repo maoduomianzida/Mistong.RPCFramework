@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Thrift;
+using System.Threading;
 
 namespace Mistong.RPCFramework.Thrift
 {
@@ -18,6 +19,7 @@ namespace Mistong.RPCFramework.Thrift
         private ConcurrentDictionary<Type, Type> _dynamicProxyCache;
         private MethodInfo _handException;
         private ConstructorInfo _exceptionContextCtor;
+        private object createLock = new object();
 
         public ThriftDynamicProxy(string dynamicAsseblyName)
         {
@@ -43,7 +45,19 @@ namespace Mistong.RPCFramework.Thrift
         {
             if (interfaceType == null) throw new ArgumentNullException(nameof(interfaceType));
 
-            return _dynamicProxyCache.GetOrAdd(interfaceType, CreateProxyCore);
+            return _dynamicProxyCache.GetOrAdd(interfaceType,
+                      type =>
+                      {
+                          Type result;
+                          if(_dynamicProxyCache.TryGetValue(type,out result)) return result;
+                          lock(createLock)
+                          {
+                              if (_dynamicProxyCache.TryGetValue(type, out result)) return result;
+                              result = CreateProxyCore(type);
+                          }
+
+                          return result;
+                      });
         }
 
         private IEnumerable<MethodInfo> GetAllMethods(Type interfaceType)
@@ -69,7 +83,7 @@ namespace Mistong.RPCFramework.Thrift
             }
         }
 
-        protected virtual void ImplementIDisposable(TypeBuilder typeBuilder,FieldBuilder fieldBuidler)
+        protected virtual void ImplementIDisposable(TypeBuilder typeBuilder, FieldBuilder fieldBuidler)
         {
             MethodInfo disposeMethod = typeof(IDisposable).GetMethod("Dispose");
             MethodBuilder methodBuilder = typeBuilder.DefineMethod(disposeMethod.Name, MethodAttributes.Public |
@@ -84,13 +98,13 @@ namespace Mistong.RPCFramework.Thrift
             il.DeclareLocal(disposeType);
             Label falseLabel = il.DefineLabel();
             il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldfld,fieldBuidler);
+            il.Emit(OpCodes.Ldfld, fieldBuidler);
             il.Emit(OpCodes.Isinst, disposeType);
             il.Emit(OpCodes.Stloc_0);
             il.Emit(OpCodes.Ldloc_0);
             il.Emit(OpCodes.Ldnull);
             il.Emit(OpCodes.Cgt_Un);
-            il.Emit(OpCodes.Brfalse_S,falseLabel);
+            il.Emit(OpCodes.Brfalse_S, falseLabel);
             il.Emit(OpCodes.Ldloc_0);
             il.Emit(OpCodes.Callvirt, disposeType.GetMethod("Dispose"));
             il.MarkLabel(falseLabel);

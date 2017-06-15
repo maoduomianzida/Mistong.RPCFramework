@@ -28,15 +28,9 @@ namespace Mistong.RPCFramework.Thrift
             return services.Where(tmp => tmp.Port != 0 && tmp.ServiceType != null).ToLookup(tmp => tmp.Port);
         }
 
-        public virtual void Start()
+        public virtual void Start(ServiceConfig serviceConfig)
         {
-            IServiceRegistryConfiguration registryConfiguration = GlobalSetting.Container.GetService<IServiceRegistryConfiguration>();
-            if(registryConfiguration == null)
-            {
-                throw new NullReferenceException("IServiceRegistryConfiguration接口不能为空");
-            }
-            ServiceConfig serviceConfig = registryConfiguration.GetServiceConfig();
-            ThriftService[] thriftServices = serviceConfig.Server.Cast<ThriftService>().ToArray();
+            ThriftService[] thriftServices = serviceConfig.Server.Services.Cast<ThriftService>().ToArray();
             IServiceRegistry registry = GlobalSetting.Container.GetService<IServiceRegistry>();
             if(registry == null)
             {

@@ -8,26 +8,20 @@ namespace Mistong.RPCFramework.Thrift
 {
     public class ThriftClientController : IClientController
     {
-        public void Start()
+        public void Start(ServiceConfig serviceConfig)
         {
-            IServiceDiscovererConfiguration configuration = GlobalSetting.Container.GetService<IServiceDiscovererConfiguration>();
-            if (configuration == null)
-                throw new NullReferenceException("IServiceDiscovererConfiguration接口不能为空");
-            ServiceConfig serviceConfig = configuration.GetServiceConfig();
-            if (serviceConfig == null)
-                throw new NullReferenceException("服务配置信息不存在");
             IServiceAssembliesResolver assembliesResolver = GlobalSetting.Container.GetService<IServiceAssembliesResolver>();
             if (assembliesResolver == null)
                 throw new NullReferenceException("IServiceAssembliesResolver接口不能为空");
             IServiceFinder serviceFinder = GlobalSetting.Container.GetService<IServiceFinder>();
             if (serviceFinder == null)
                 throw new NullReferenceException("IServiceFinder接口不能为空");
-            IEnumerable<ServiceMap> serviceMaps = FilterServiceMap(serviceFinder.Find(assembliesResolver.GetAssemblies()), serviceConfig.Server);
+            IEnumerable<ServiceMap> serviceMaps = FilterServiceMap(serviceFinder.Find(assembliesResolver.GetAssemblies()), serviceConfig.Server.Services);
             IServiceDiscoverer serviceDiscoverer = GlobalSetting.Container.GetService<IServiceDiscoverer>();
             if (serviceDiscoverer == null)
                 throw new NullReferenceException("IServiceDiscoverer接口不能为空");
             serviceDiscoverer.RegistrationCenter = serviceConfig.RegistrationCenter;
-            IEnumerable<Service> servics = FilterServices(serviceDiscoverer.Discover(serviceMaps), serviceConfig.Client);
+            IEnumerable<Service> servics = FilterServices(serviceDiscoverer.Discover(serviceMaps), serviceConfig.Client.Services);
             IThriftClientActivator thriftClientActivator = GlobalSetting.Container.GetService<IThriftClientActivator>();
             if (thriftClientActivator == null)
                 throw new NullReferenceException("IThriftClientActivator接口不能为空");

@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Client\AgentServiceMap.cs" />
     <Compile Include="Client\ConnectionPool\DecorateTransport.cs" />
+    <Compile Include="Client\ConnectionPool\FreshConnectionPool.cs" />
     <Compile Include="Client\ConnectionPool\IThriftConnectionPool.cs" />
     <Compile Include="Client\ConnectionPool\ThriftConnectionStore.cs" />
     <Compile Include="Client\ConnectionPool\ThriftServiceEqualityComparer.cs" />
@@ -60,6 +61,11 @@
     <Compile Include="Client\ThriftServiceAssembliesResolver.cs" />
     <Compile Include="Client\ThriftServiceClientActivator.cs" />
     <Compile Include="Client\ConnectionPool\TransportPoolItem.cs" />
+    <Compile Include="Config\ThriftClientConfig.cs" />
+    <Compile Include="Config\ThriftServerConfig.cs" />
+    <Compile Include="Converter\ThriftClientConfigConverter.cs" />
+    <Compile Include="Converter\ThriftServerConfigConverter.cs" />
+    <Compile Include="Exception\ThriftConnectionFullException.cs" />
     <Compile Include="Extension\IServiceContainerExtension.cs" />
     <Compile Include="Filter\ExceptionContext.cs" />
     <Compile Include="Filter\FilterCollection.cs" />
@@ -80,7 +86,7 @@
     <Compile Include="Server\ThriftServerController.cs" />
     <Compile Include="ThriftService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\ThriftServiceRegistryConfiguration.cs" />
+    <Compile Include="Config\ThriftServiceConfiguration.cs" />
     <Compile Include="Client\ThriftServiceDiscoverer.cs" />
     <Compile Include="Client\ThriftServiceFinder.cs" />
     <Compile Include="Server\ThriftServiceRegistry.cs" />
@@ -99,8 +105,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exception\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

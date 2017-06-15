@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,22 +18,79 @@ namespace Mistong.RPCFramework.ThriftClient
         static void Main(string[] args)
         {
             ThriftServiceContainer container = new ThriftServiceContainer();
-            container.AddActionFilter(new TestActionFilter());
-            container.AddExceptionFilter(new MissingResultExceptionFilter());
+            container.Reaplce(typeof(IThriftConnectionPool),new FreshConnectionPool());
+            //container.AddActionFilter(new TestActionFilter());
             //SelfServiceAssembliesResolver resolver = new SelfServiceAssembliesResolver();
             //container.Reaplce(typeof(IServiceAssembliesResolver), resolver);
             GlobalSetting.Start(container);
+            int threadCount = 1000;
+            int count = 0;
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            for (int i = 0; i < threadCount; i++)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    IDisposable dis = null;
+                    try
+                    {
 
-            UserService.Iface userService = GlobalSetting.GetService<UserService.Iface>();
-            bool result = userService.Add(new UserInfo { UserID = 10, UserName = "wg.king", Sex = true });
-            IDisposable dis = userService as IDisposable;
+                        UserService.Iface userService = GlobalSetting.GetService<UserService.Iface>();
+                        Stopwatch tmp = new Stopwatch();
+                        tmp.Start();
+                        for (int j = 0; j < 10; j++)
+                        {
+                            UserInfo user = userService.GetUser(10);
+                        }
+                        tmp.Stop();
+                        Console.WriteLine("run time:" + tmp.ElapsedMilliseconds + "毫秒");
+                        //Thread.Sleep(1000);
+                        dis = userService as IDisposable;
+                        Console.WriteLine("OK");
+                    }
+                    catch(Exception err)
+                    {
+                        Console.WriteLine(err.Message);
+                    }
+                    finally
+                    {
+                        dis?.Dispose();
+                        Interlocked.Increment(ref count);
+                    }
+                });
+                thread.Start();
+            }
+            bool timeout = false;
+            //Timer timer = new Timer((state) => timeout = true,null,10000,-1);
+            while (count < threadCount && !timeout)
+            {
+            }
+            if (timeout)
+            {
+                Console.WriteLine($"超时:执行成功{count}次");
+            }
+            else
+            {
+                Console.WriteLine($"正常结束:执行成功{count}次");
+            }
+            watch.Stop();
+            Console.WriteLine("耗时" + watch.ElapsedMilliseconds);
+            ThriftConnectionPool pool = GlobalSetting.GetService<IThriftConnectionPool>() as ThriftConnectionPool;
+            foreach (var item in pool.ConnectionStore.ConnectionPool)
+            {
+                Console.WriteLine("连接池内的TTransport：" + item.Value.Count);
+                int index = 0;
+                foreach(var tmp in item.Value)
+                {
+                    index++;
+                    Console.WriteLine(index + " " + (tmp.IsFree ? "空闲":"忙碌"));
+                }
+            }
+            Thread.Sleep(9 * 1000);
+            UserService.Iface face = GlobalSetting.GetService<UserService.Iface>();
+            Console.WriteLine("剩余连接：" + pool.ConnectionStore.ConnectionPool.First().Value.Count);
 
-            Console.WriteLine(dis != null? "可转换为IDisposable接口" : "不可转换为IDisposable接口");
-            Console.WriteLine(result ? "添加成功" : "添加失败");
-            UserInfo user = userService.GetUser(10);
-            Console.WriteLine(JsonConvert.SerializeObject(user));
-
-            //Console.ReadLine();
+            Console.ReadKey();
         }
     }
 }

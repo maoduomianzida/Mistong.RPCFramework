@@ -1,0 +1,17 @@
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\services.json
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.ThriftClient.exe.config
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.ThriftClient.exe
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.ThriftClient.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Consul.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.ThriftClient.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Newtonsoft.Json.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Mistong.RPCFramework.ThriftClient.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\bin\Release\Newtonsoft.Json.xml
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Release\Mistong.RPCFramework.ThriftClient.csprojResolveAssemblyReference.cache
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Release\Mistong.RPCFramework.ThriftClient.exe
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftClient\obj\Release\Mistong.RPCFramework.ThriftClient.pdb

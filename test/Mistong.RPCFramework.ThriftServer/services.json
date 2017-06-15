@@ -5,18 +5,20 @@
       "http://10.0.1.14:8500"
     ]
   },
-  "server": [
-    {
-      "name": "mistong.ewt.rpc.services.userservice",
-      "port": 1000,
-      "serviceType": "Mistong.RPCFramework.ThriftClient.UserServiceImplement,Mistong.RPCFramework.ThriftServer",
-      "type": "thrift"
-    },
-    {
-      "name": "mistong.ewt.rpc.services.orderservice",
-      "port": 1000,
-      "serviceType": "Mistong.RPCFramework.ThriftClient.OrderServiceImplement,Mistong.RPCFramework.ThriftServer",
-      "type": "thrift"
-    }
-  ]
+  "server": {
+    "services": [
+      {
+        "name": "mistong.ewt.rpc.services.userservice",
+        "port": 1000,
+        "serviceType": "Mistong.RPCFramework.ThriftClient.UserServiceImplement,Mistong.RPCFramework.ThriftServer",
+        "type": "thrift"
+      },
+      {
+        "name": "mistong.ewt.rpc.services.orderservice",
+        "port": 1000,
+        "serviceType": "Mistong.RPCFramework.ThriftClient.OrderServiceImplement,Mistong.RPCFramework.ThriftServer",
+        "type": "thrift"
+      }
+    ]
+  }
 }

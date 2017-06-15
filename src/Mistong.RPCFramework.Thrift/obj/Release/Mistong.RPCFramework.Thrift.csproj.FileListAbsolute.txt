@@ -1,0 +1,12 @@
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Mistong.RPCFramework.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Mistong.RPCFramework.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Consul.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Mistong.RPCFramework.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Newtonsoft.Json.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\bin\Release\Newtonsoft.Json.xml
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Release\Mistong.RPCFramework.Thrift.csprojResolveAssemblyReference.cache
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Release\Mistong.RPCFramework.Thrift.dll
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework.Thrift\obj\Release\Mistong.RPCFramework.Thrift.pdb

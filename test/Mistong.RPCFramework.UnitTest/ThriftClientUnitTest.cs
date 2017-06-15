@@ -89,6 +89,8 @@ namespace Mistong.RPCFramework.UnitTest
                 Assert.IsNotNull(user);
                 Assert.AreEqual(10, user.UserID);
             }
+            IDisposable dis = userService as IDisposable;
+            dis?.Dispose();
         }
 
         private void Test()
@@ -158,7 +160,7 @@ namespace Mistong.RPCFramework.UnitTest
         [TestMethod]
         public void 使用连接池内缓存的TTransport请求_线程延时以达到最大的缓存限制()
         {
-            int threadCount = 100;
+            int threadCount = 1000;
             int count = 0;
             for (int i = 0; i < threadCount; i++)
             {

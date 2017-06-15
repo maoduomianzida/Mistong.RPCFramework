@@ -25,7 +25,7 @@ namespace Mistong.RPCFramework.UnitTest
         {
             ServiceConfig config = _configuration.GetServiceConfig();
 
-            Assert.AreEqual(1, config.Server.Count());
+            Assert.AreEqual(1, config.Server.Services.Count());
         }
 
         [TestMethod]
@@ -39,13 +39,13 @@ namespace Mistong.RPCFramework.UnitTest
             ServiceConfig config = _configuration.GetServiceConfig();
             ThriftServiceRegistry registry = new ThriftServiceRegistry();
             registry.RegistrationCenter = config.RegistrationCenter;
-            registry.Register(config.Server);
+            registry.Register(config.Server.Services);
         }
 
         [TestMethod]
         public void 测试ServiceController()
         {
-            GlobalSetting.ServiceController.Start();
+            GlobalSetting.Start();
         }
     }
 }

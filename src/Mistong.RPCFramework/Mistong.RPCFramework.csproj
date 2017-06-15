@@ -42,11 +42,12 @@
   <ItemGroup>
     <Compile Include="Client\IClientController.cs" />
     <Compile Include="Client\IServiceAssembliesResolver.cs" />
-    <Compile Include="Client\IServiceDiscovererConfiguration.cs" />
     <Compile Include="Client\IServiceDiscoverer.cs" />
+    <Compile Include="Config\ClientConfig.cs" />
     <Compile Include="Config\RegistrationCenter.cs" />
     <Compile Include="Config\GlobalSetting.cs" />
     <Compile Include="Config\IGlobalStarter.cs" />
+    <Compile Include="Config\ServerConfig.cs" />
     <Compile Include="Config\ServiceConfig.cs" />
     <Compile Include="Exception\ServiceDiscovererException.cs" />
     <Compile Include="Exception\ServiceRegisterException.cs" />
@@ -55,7 +56,7 @@
     <Compile Include="Server\IServiceRegistry.cs" />
     <Compile Include="Client\IServiceFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\IServiceRegistryConfiguration.cs" />
+    <Compile Include="Config\IServiceConfiguration.cs" />
     <Compile Include="Server\IServiceController.cs" />
     <Compile Include="Server\IServiceContainerExtension.cs" />
     <Compile Include="Service.cs" />

@@ -15,7 +15,7 @@ namespace Mistong.RPCFramework
         /// 启动服务
         /// </summary>
         /// <param name="services"></param>
-        void Start();
+        void Start(ServiceConfig serviceConfig);
 
         /// <summary>
         /// 停止服务

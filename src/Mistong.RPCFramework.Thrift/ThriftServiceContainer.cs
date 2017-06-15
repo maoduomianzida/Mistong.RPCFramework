@@ -24,19 +24,27 @@ namespace Mistong.RPCFramework.Thrift
         protected virtual void Init()
         {
             ThriftServiceConfiguration configuration = new ThriftServiceConfiguration();
-            _cache.Add(typeof(IServiceRegistryConfiguration), configuration);
+            ServiceConfig serviceConfig = configuration.GetServiceConfig();
+            ThriftClientConfig clientConfig = serviceConfig.Client as ThriftClientConfig;
+            if (clientConfig == null) throw new Exception("ClientConfig必须为ThriftClientConfig类型");
+            _cache.Add(typeof(IServiceConfiguration), configuration);
             _cache.Add(typeof(IServiceRegistry), new ThriftServiceRegistry());
             _cache.Add(typeof(IServerController), new ThriftServerController());
             _cache.Add(typeof(IServiceActivator), new ThriftServiceActivator());
 
-            _cache.Add(typeof(IServiceDiscovererConfiguration), configuration);
             _cache.Add(typeof(IServiceAssembliesResolver), new ThriftServiceAssembliesResolver());
             _cache.Add(typeof(IServiceFinder), new ThriftServiceFinder());
             _cache.Add(typeof(IServiceDiscoverer), new ThriftServiceDiscoverer());
             _cache.Add(typeof(IThriftClientActivator), new ThriftClientActivator());
-            _cache.Add(typeof(IThriftConnectionPool), new ThriftConnectionPool(50, 3 * 1000, 3));
+            _cache.Add(typeof(IThriftConnectionPool), new FreshConnectionPool());
+            //_cache.Add(typeof(IThriftConnectionPool), 
+            //    new ThriftConnectionPool(clientConfig.ConnectionLimit.Value, 
+            //                                             clientConfig.WaitFreeMillisecond.Value,
+            //                                             clientConfig.WaitFreeTimes.Value,
+            //                                             clientConfig.ConnectionOverdueInterval.Value));
             _cache.Add(typeof(IClientController), new ThriftClientController());
             _cache.Add(typeof(IDynamicProxyBuilder), new ThriftDynamicProxy("Mistong.RPCFramework.Thrift"));
+            this.AddExceptionFilter(new MissingResultExceptionFilter());
         }
 
         public virtual void Add(Type type, Func<Type, object> func)

@@ -72,6 +72,7 @@ namespace Mistong.RPCFramework.Thrift
             if (item != null)
             {
                 item.IsFree = false;
+                item.LastUseTime = DateTime.Now;
                 ClearOverdueTransportItem();
             }
 
@@ -89,7 +90,8 @@ namespace Mistong.RPCFramework.Thrift
             TransportPoolItem[] items = _collection.Where(tmp => tmp.IsFree && (now - tmp.LastUseTime) > _overdueInterval).ToArray();
             foreach(TransportPoolItem item in items)
             {
-
+                item.Transport?.Dispose();
+                _collection.Remove(item);
             }
         }
 

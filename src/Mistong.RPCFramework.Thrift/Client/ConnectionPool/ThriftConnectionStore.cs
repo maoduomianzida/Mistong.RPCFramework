@@ -14,7 +14,7 @@ namespace Mistong.RPCFramework.Thrift
         private IDictionary<ThriftService, TransportPoolItemCollection> _connectionPool;
         private readonly int _connectionLimit;
         private int _waitFreeMillisecond;
-        private int _waitFreeTimes;
+        private TimeSpan _transportOverdueInterval;
 
         internal IDictionary<ThriftService, TransportPoolItemCollection> ConnectionPool
         {
@@ -30,13 +30,13 @@ namespace Mistong.RPCFramework.Thrift
         /// <param name="connectionLimit">同一个地址端口下的最大thrift连接数</param>
         /// <param name="waitFreeMillisecond">达到最大连接数后，等待其它连接释放的超时时间（毫秒）</param>
         /// <param name="waitFreeTimes">达到最大连接数后，尝试等待其它线程释放连接的次数</param>
-        public ThriftConnectionStore(int connectionLimit, int waitFreeMillisecond, int waitFreeTimes)
+        public ThriftConnectionStore(int connectionLimit, int waitFreeMillisecond,TimeSpan transportOverdueInterval)
         {
             Contract.Assert(connectionLimit > 0);
             _connectionPool = new Dictionary<ThriftService, TransportPoolItemCollection>(new ThriftServiceEqualityComparer());
             _connectionLimit = connectionLimit;
             _waitFreeMillisecond = waitFreeMillisecond;
-            _waitFreeTimes = waitFreeTimes;
+            _transportOverdueInterval = transportOverdueInterval;
         }
 
         public TTransport GetOrAdd(ThriftService service, Func<ThriftService, TTransport> createAction)
@@ -47,21 +47,12 @@ namespace Mistong.RPCFramework.Thrift
             {
                 if (_connectionPool.ContainsKey(service))
                 {
-                    int waitTimes = 0;
                     while (true)
                     {
                         item = _connectionPool[service].GetUsableTransport(() => createAction(service));
                         if (item == null)
                         {
-                            if (waitTimes < _waitFreeTimes)
-                            {
-                                waitTimes++;
-                                Monitor.Wait(this, _waitFreeMillisecond);
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            Monitor.Wait(this, _waitFreeMillisecond);
                         }
                         else
                         {
@@ -71,7 +62,7 @@ namespace Mistong.RPCFramework.Thrift
                 }
                 else
                 {
-                    TransportPoolItemCollection collection = new TransportPoolItemCollection(_connectionLimit,TimeSpan.FromMinutes(15));
+                    TransportPoolItemCollection collection = new TransportPoolItemCollection(_connectionLimit, _transportOverdueInterval);
                     TTransport transport = createAction(service);
                     if (transport != null)
                     {
@@ -95,6 +86,7 @@ namespace Mistong.RPCFramework.Thrift
             {
                 if (_connectionPool.ContainsKey(service))
                 {
+                    Console.WriteLine("ReleaseTransport");
                     _connectionPool[service].SetFree(item);
                     Monitor.Pulse(this);
                 }

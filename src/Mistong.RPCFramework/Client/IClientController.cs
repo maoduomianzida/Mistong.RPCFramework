@@ -8,6 +8,6 @@ namespace Mistong.RPCFramework
 {
     public interface IClientController
     {
-        void Start();
+        void Start(ServiceConfig serviceConfig);
     }
 }

@@ -13,5 +13,4 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\b
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.exe
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.csprojResolveAssemblyReference.cache
-E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\Thrift.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\Mistong.RPCFramework.ThriftServer.Thrift.pdb
