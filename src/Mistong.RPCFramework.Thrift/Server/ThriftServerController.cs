@@ -36,8 +36,14 @@ namespace Mistong.RPCFramework.Thrift
             {
                 throw new NullReferenceException("IServiceRegistry接口不能为空");
             }
-            registry.RegistrationCenter = serviceConfig.RegistrationCenter;
-            registry.Register(GetNeedRegisterServices(thriftServices).ToArray());
+            ThriftService[] registerServices = GetNeedRegisterServices(thriftServices).ToArray();
+            registry.Register(registerServices);
+            IServiceHealthCheck serviceCheck = GlobalSetting.Container.GetService<IServiceHealthCheck>();
+            if (serviceCheck == null)
+            {
+                throw new NullReferenceException("IServiceHealthCheck接口不能为空");
+            }
+            serviceCheck.AddHeadlthCheck(registerServices);
             ILookup<int, ThriftService> tidyServices = TidyServices(thriftServices);
             foreach(var group in tidyServices)
             {

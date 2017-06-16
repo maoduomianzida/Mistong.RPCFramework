@@ -111,7 +111,7 @@ namespace Mistong.RPCFramework.Thrift
             return _thriftAssembly;
         }
 
-        private static string GetApplicationName()
+        public static string GetApplicationName()
         {
             string name = AppDomain.CurrentDomain.FriendlyName;
             int index = name.LastIndexOf(".");

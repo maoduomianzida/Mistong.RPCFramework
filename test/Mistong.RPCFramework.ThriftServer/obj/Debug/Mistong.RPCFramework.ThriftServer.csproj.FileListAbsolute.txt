@@ -14,3 +14,10 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\o
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.pdb
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.csprojResolveAssemblyReference.cache
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\Mistong.RPCFramework.ThriftServer.Thrift.pdb
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Net.Http.Formatting.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Web.Http.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Web.Http.SelfHost.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Net.Http.Formatting.xml
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Web.Http.xml
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Web.Http.SelfHost.xml
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\zh-Hans\System.Web.Http.SelfHost.resources.dll

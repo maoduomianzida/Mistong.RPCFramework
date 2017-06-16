@@ -6,6 +6,12 @@
     ]
   },
   "server": {
+    "serviceCheck": {
+      "interval": "00:00:05",
+      "timeout": "00:00:03",
+      "type": "tcp",
+      "port": 6000
+    },
     "services": [
       {
         "name": "mistong.ewt.rpc.services.userservice",

@@ -26,9 +26,14 @@ namespace Mistong.RPCFramework.Thrift
             ThriftServiceConfiguration configuration = new ThriftServiceConfiguration();
             ServiceConfig serviceConfig = configuration.GetServiceConfig();
             ThriftClientConfig clientConfig = serviceConfig.Client as ThriftClientConfig;
+            ThriftServerConfig serverConfig = serviceConfig.Server as ThriftServerConfig;
             if (clientConfig == null) throw new Exception("ClientConfig必须为ThriftClientConfig类型");
+            if (serverConfig == null) throw new Exception("ServerConfig必须为ThriftServerConfig类型");
+            ThriftServiceRegistry serviceRegistry = new ThriftServiceRegistry(serviceConfig.RegistrationCenter, serverConfig.WaitConsulTime.Value);
             _cache.Add(typeof(IServiceConfiguration), configuration);
-            _cache.Add(typeof(IServiceRegistry), new ThriftServiceRegistry());
+            _cache.Add(typeof(IServiceRegistry), serviceRegistry);
+            _cache.Add(typeof(IServiceHealthCheck), serviceRegistry);
+            _cache.Add(typeof(IServiceHealthCheckCreator), new ServiceHealthCheckCreator(serverConfig.ServiceCheck));
             _cache.Add(typeof(IServerController), new ThriftServerController());
             _cache.Add(typeof(IServiceActivator), new ThriftServiceActivator());
 

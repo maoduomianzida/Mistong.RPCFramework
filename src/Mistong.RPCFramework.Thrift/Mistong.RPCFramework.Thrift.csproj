@@ -61,6 +61,7 @@
     <Compile Include="Client\ThriftServiceAssembliesResolver.cs" />
     <Compile Include="Client\ThriftServiceClientActivator.cs" />
     <Compile Include="Client\ConnectionPool\TransportPoolItem.cs" />
+    <Compile Include="Config\ServiceCheckConfig.cs" />
     <Compile Include="Config\ThriftClientConfig.cs" />
     <Compile Include="Config\ThriftServerConfig.cs" />
     <Compile Include="Converter\ThriftClientConfigConverter.cs" />
@@ -81,6 +82,9 @@
     <Compile Include="Helper\ThriftServiceHelper.cs" />
     <Compile Include="Helper\TypeHelper.cs" />
     <Compile Include="Server\IServiceActivator.cs" />
+    <Compile Include="Server\IServiceHealthCheck.cs" />
+    <Compile Include="Server\IServiceHealthCheckCreator.cs" />
+    <Compile Include="Server\ServiceHealthCheckCreator.cs" />
     <Compile Include="Server\ThriftServiceActivator.cs" />
     <Compile Include="ThriftServiceContainer.cs" />
     <Compile Include="Server\ThriftServerController.cs" />

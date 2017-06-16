@@ -86,7 +86,6 @@ namespace Mistong.RPCFramework.Thrift
             {
                 if (_connectionPool.ContainsKey(service))
                 {
-                    Console.WriteLine("ReleaseTransport");
                     _connectionPool[service].SetFree(item);
                     Monitor.Pulse(this);
                 }

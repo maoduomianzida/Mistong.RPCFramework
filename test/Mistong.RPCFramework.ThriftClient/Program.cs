@@ -18,12 +18,15 @@ namespace Mistong.RPCFramework.ThriftClient
         static void Main(string[] args)
         {
             ThriftServiceContainer container = new ThriftServiceContainer();
-            container.Reaplce(typeof(IThriftConnectionPool),new FreshConnectionPool());
+            //container.Reaplce(typeof(IThriftConnectionPool),new FreshConnectionPool());
             //container.AddActionFilter(new TestActionFilter());
             //SelfServiceAssembliesResolver resolver = new SelfServiceAssembliesResolver();
             //container.Reaplce(typeof(IServiceAssembliesResolver), resolver);
             GlobalSetting.Start(container);
-            int threadCount = 1000;
+
+            UserService.Iface tmpService = GlobalSetting.GetService<UserService.Iface>();
+            tmpService.Add(new UserInfo { UserID = 10, UserName = "wg.king", Sex = true });
+            int threadCount = 2000;
             int count = 0;
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -34,17 +37,14 @@ namespace Mistong.RPCFramework.ThriftClient
                     IDisposable dis = null;
                     try
                     {
-
                         UserService.Iface userService = GlobalSetting.GetService<UserService.Iface>();
-                        Stopwatch tmp = new Stopwatch();
-                        tmp.Start();
+
                         for (int j = 0; j < 10; j++)
                         {
                             UserInfo user = userService.GetUser(10);
                         }
-                        tmp.Stop();
-                        Console.WriteLine("run time:" + tmp.ElapsedMilliseconds + "毫秒");
-                        //Thread.Sleep(1000);
+
+                        Thread.Sleep(100);
                         dis = userService as IDisposable;
                         Console.WriteLine("OK");
                     }

@@ -12,11 +12,6 @@ namespace Mistong.RPCFramework
     public interface IServiceRegistry
     {
         /// <summary>
-        /// 注册中心信息
-        /// </summary>
-        RegistrationCenter RegistrationCenter { get; set; }
-
-        /// <summary>
         /// 注册服务
         /// </summary>
         /// <param name="services"></param>

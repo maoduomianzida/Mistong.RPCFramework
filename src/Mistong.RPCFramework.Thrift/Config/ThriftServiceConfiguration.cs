@@ -83,9 +83,24 @@ namespace Mistong.RPCFramework.Thrift
         {
             if (serviceConfig.Server == null) serviceConfig.Server = new ThriftServerConfig();
             if (serviceConfig.Client == null) serviceConfig.Client = new ThriftClientConfig();
+            FillServerConfig(serviceConfig.Server);
             FillClientConfig(serviceConfig.Client);
             FillAddress(serviceConfig.Server.Services);
             FillAddress(serviceConfig.Client.Services);
+        }
+
+        protected virtual void FillServerConfig(ServerConfig config)
+        {
+            ThriftServerConfig thriftConfig = config as ThriftServerConfig;
+            if (thriftConfig != null)
+            {
+                thriftConfig.WaitConsulTime = thriftConfig.WaitConsulTime ?? TimeSpan.FromSeconds(3);
+                thriftConfig.ServiceCheck = thriftConfig.ServiceCheck ?? new ServiceCheckConfig();
+                thriftConfig.ServiceCheck.Address = GetLocalHost();
+                thriftConfig.ServiceCheck.Interval = thriftConfig.ServiceCheck.Interval ?? TimeSpan.FromSeconds(10);
+                thriftConfig.ServiceCheck.Timeout = thriftConfig.ServiceCheck.Timeout ?? TimeSpan.FromSeconds(3);
+                thriftConfig.ServiceCheck.Type = thriftConfig.ServiceCheck.Type ?? "tcp";
+            }
         }
 
         protected virtual void FillClientConfig(ClientConfig config)
@@ -94,17 +109,21 @@ namespace Mistong.RPCFramework.Thrift
             if (thriftConfig != null)
             {
                 thriftConfig.ConnectionLimit = thriftConfig.ConnectionLimit ?? 50;
-                thriftConfig.ConnectionOverdueInterval = thriftConfig.ConnectionOverdueInterval ?? TimeSpan.FromSeconds(8);
+                thriftConfig.ConnectionOverdueInterval = thriftConfig.ConnectionOverdueInterval ?? TimeSpan.FromMinutes(5);
                 thriftConfig.WaitFreeMillisecond = thriftConfig.WaitFreeMillisecond ?? 1000;
-                thriftConfig.WaitFreeTimes = thriftConfig.WaitFreeTimes ?? 3;
             }
+        }
+
+        private string GetLocalHost()
+        {
+            return Dns.GetHostEntry(Dns.GetHostName()).AddressList.First(x => x.AddressFamily == AddressFamily.InterNetwork).ToString();
         }
 
         protected virtual void FillAddress(IEnumerable<Service> services)
         {
             foreach (Service service in services.Where(tmp => string.IsNullOrWhiteSpace(tmp.Address)))
             {
-                service.Address = Dns.GetHostEntry(Dns.GetHostName()).AddressList.First(x => x.AddressFamily == AddressFamily.InterNetwork).ToString();
+                service.Address = GetLocalHost();
             }
         }
     }

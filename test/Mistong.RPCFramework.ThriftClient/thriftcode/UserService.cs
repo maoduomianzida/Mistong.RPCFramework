@@ -14,89 +14,94 @@ using Thrift.Collections;
 using System.Runtime.Serialization;
 using Thrift.Protocol;
 using Thrift.Transport;
+using System.Diagnostics;
 
 namespace Mistong.Services.UserService
 {
-  public partial class UserService {
-    public interface ISync {
-      UserInfo GetUser(int UserID);
-      List<UserInfo> GetAll();
-      bool @Add(UserInfo user);
-    }
-	
-    public interface Iface : ISync {
-      #if SILVERLIGHT
+    public partial class UserService
+    {
+        public interface ISync
+        {
+            UserInfo GetUser(int UserID);
+            List<UserInfo> GetAll();
+            bool @Add(UserInfo user);
+        }
+
+        public interface Iface : ISync
+        {
+#if SILVERLIGHT
       IAsyncResult Begin_GetUser(AsyncCallback callback, object state, int UserID);
       UserInfo End_GetUser(IAsyncResult asyncResult);
-      #endif
-      #if SILVERLIGHT
+#endif
+#if SILVERLIGHT
       IAsyncResult Begin_GetAll(AsyncCallback callback, object state);
       List<UserInfo> End_GetAll(IAsyncResult asyncResult);
-      #endif
-      #if SILVERLIGHT
+#endif
+#if SILVERLIGHT
       IAsyncResult Begin_Add(AsyncCallback callback, object state, UserInfo user);
       bool End_Add(IAsyncResult asyncResult);
-      #endif
-    }
-
-    public class Client : IDisposable, Iface {
-      public Client(TProtocol prot) : this(prot, prot)
-      {
-      }
-
-      public Client(TProtocol iprot, TProtocol oprot)
-      {
-        iprot_ = iprot;
-        oprot_ = oprot;
-      }
-
-      protected TProtocol iprot_;
-      protected TProtocol oprot_;
-      protected int seqid_;
-
-      public TProtocol InputProtocol
-      {
-        get { return iprot_; }
-      }
-      public TProtocol OutputProtocol
-      {
-        get { return oprot_; }
-      }
-
-
-      #region " IDisposable Support "
-      private bool _IsDisposed;
-
-      // IDisposable
-      public void Dispose()
-      {
-        Dispose(true);
-      }
-      
-
-      protected virtual void Dispose(bool disposing)
-      {
-        if (!_IsDisposed)
-        {
-          if (disposing)
-          {
-            if (iprot_ != null)
-            {
-              ((IDisposable)iprot_).Dispose();
-            }
-            if (oprot_ != null)
-            {
-              ((IDisposable)oprot_).Dispose();
-            }
-          }
+#endif
         }
-        _IsDisposed = true;
-      }
-      #endregion
+
+        public class Client : IDisposable, Iface
+        {
+            public Client(TProtocol prot) : this(prot, prot)
+            {
+            }
+
+            public Client(TProtocol iprot, TProtocol oprot)
+            {
+                iprot_ = iprot;
+                oprot_ = oprot;
+            }
+
+            protected TProtocol iprot_;
+            protected TProtocol oprot_;
+            protected int seqid_;
+
+            public TProtocol InputProtocol
+            {
+                get { return iprot_; }
+            }
+            public TProtocol OutputProtocol
+            {
+                get { return oprot_; }
+            }
 
 
-      
-      #if SILVERLIGHT
+            #region " IDisposable Support "
+            private bool _IsDisposed;
+
+            // IDisposable
+            public void Dispose()
+            {
+                Dispose(true);
+            }
+
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!_IsDisposed)
+                {
+                    if (disposing)
+                    {
+                        if (iprot_ != null)
+                        {
+                            ((IDisposable)iprot_).Dispose();
+                        }
+                        if (oprot_ != null)
+                        {
+                            ((IDisposable)oprot_).Dispose();
+                        }
+                    }
+                }
+                _IsDisposed = true;
+            }
+            #endregion
+
+
+
+#if SILVERLIGHT
       public IAsyncResult Begin_GetUser(AsyncCallback callback, object state, int UserID)
       {
         return send_GetUser(callback, state, UserID);
@@ -108,57 +113,69 @@ namespace Mistong.Services.UserService
         return recv_GetUser();
       }
 
-      #endif
+#endif
 
-      public UserInfo GetUser(int UserID)
-      {
-        #if !SILVERLIGHT
-        send_GetUser(UserID);
-        return recv_GetUser();
+            public UserInfo GetUser(int UserID)
+            {
+#if !SILVERLIGHT
 
-        #else
+                send_GetUser(UserID);
+
+                return recv_GetUser();
+
+
+#else
         var asyncResult = Begin_GetUser(null, null, UserID);
         return End_GetUser(asyncResult);
 
-        #endif
-      }
-      #if SILVERLIGHT
+#endif
+            }
+#if SILVERLIGHT
       public IAsyncResult send_GetUser(AsyncCallback callback, object state, int UserID)
-      #else
-      public void send_GetUser(int UserID)
-      #endif
-      {
-        oprot_.WriteMessageBegin(new TMessage("GetUser", TMessageType.Call, seqid_));
-        GetUser_args args = new GetUser_args();
-        args.UserID = UserID;
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        #if SILVERLIGHT
+#else
+            public void send_GetUser(int UserID)
+#endif
+            {
+                oprot_.WriteMessageBegin(new TMessage("GetUser", TMessageType.Call, seqid_));
+                GetUser_args args = new GetUser_args();
+                args.UserID = UserID;
+                args.Write(oprot_);
+                oprot_.WriteMessageEnd();
+#if SILVERLIGHT
         return oprot_.Transport.BeginFlush(callback, state);
-        #else
-        oprot_.Transport.Flush();
-        #endif
-      }
+#else
+                oprot_.Transport.Flush();
+#endif
+            }
 
-      public UserInfo recv_GetUser()
-      {
-        TMessage msg = iprot_.ReadMessageBegin();
-        if (msg.Type == TMessageType.Exception) {
-          TApplicationException x = TApplicationException.Read(iprot_);
-          iprot_.ReadMessageEnd();
-          throw x;
-        }
-        GetUser_result result = new GetUser_result();
-        result.Read(iprot_);
-        iprot_.ReadMessageEnd();
-        if (result.Success != null) {
-          return result.Success;
-        }
-        throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "GetUser failed: unknown result");
-      }
+            public UserInfo recv_GetUser()
+            {
 
-      
-      #if SILVERLIGHT
+                TMessage msg = iprot_.ReadMessageBegin();
+
+                if (msg.Type == TMessageType.Exception)
+                {
+                    TApplicationException x = TApplicationException.Read(iprot_);
+                    iprot_.ReadMessageEnd();
+                    throw x;
+                }
+                GetUser_result result = new GetUser_result();
+
+
+                result.Read(iprot_);
+
+
+                iprot_.ReadMessageEnd();
+
+                if (result.Success != null)
+                {
+                    return result.Success;
+                }
+                throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "GetUser failed: unknown result");
+            }
+
+
+#if SILVERLIGHT
       public IAsyncResult Begin_GetAll(AsyncCallback callback, object state)
       {
         return send_GetAll(callback, state);
@@ -170,56 +187,58 @@ namespace Mistong.Services.UserService
         return recv_GetAll();
       }
 
-      #endif
+#endif
 
-      public List<UserInfo> GetAll()
-      {
-        #if !SILVERLIGHT
-        send_GetAll();
-        return recv_GetAll();
+            public List<UserInfo> GetAll()
+            {
+#if !SILVERLIGHT
+                send_GetAll();
+                return recv_GetAll();
 
-        #else
+#else
         var asyncResult = Begin_GetAll(null, null);
         return End_GetAll(asyncResult);
 
-        #endif
-      }
-      #if SILVERLIGHT
+#endif
+            }
+#if SILVERLIGHT
       public IAsyncResult send_GetAll(AsyncCallback callback, object state)
-      #else
-      public void send_GetAll()
-      #endif
-      {
-        oprot_.WriteMessageBegin(new TMessage("GetAll", TMessageType.Call, seqid_));
-        GetAll_args args = new GetAll_args();
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        #if SILVERLIGHT
+#else
+            public void send_GetAll()
+#endif
+            {
+                oprot_.WriteMessageBegin(new TMessage("GetAll", TMessageType.Call, seqid_));
+                GetAll_args args = new GetAll_args();
+                args.Write(oprot_);
+                oprot_.WriteMessageEnd();
+#if SILVERLIGHT
         return oprot_.Transport.BeginFlush(callback, state);
-        #else
-        oprot_.Transport.Flush();
-        #endif
-      }
+#else
+                oprot_.Transport.Flush();
+#endif
+            }
 
-      public List<UserInfo> recv_GetAll()
-      {
-        TMessage msg = iprot_.ReadMessageBegin();
-        if (msg.Type == TMessageType.Exception) {
-          TApplicationException x = TApplicationException.Read(iprot_);
-          iprot_.ReadMessageEnd();
-          throw x;
-        }
-        GetAll_result result = new GetAll_result();
-        result.Read(iprot_);
-        iprot_.ReadMessageEnd();
-        if (result.Success != null) {
-          return result.Success;
-        }
-        throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "GetAll failed: unknown result");
-      }
+            public List<UserInfo> recv_GetAll()
+            {
+                TMessage msg = iprot_.ReadMessageBegin();
+                if (msg.Type == TMessageType.Exception)
+                {
+                    TApplicationException x = TApplicationException.Read(iprot_);
+                    iprot_.ReadMessageEnd();
+                    throw x;
+                }
+                GetAll_result result = new GetAll_result();
+                result.Read(iprot_);
+                iprot_.ReadMessageEnd();
+                if (result.Success != null)
+                {
+                    return result.Success;
+                }
+                throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "GetAll failed: unknown result");
+            }
 
-      
-      #if SILVERLIGHT
+
+#if SILVERLIGHT
       public IAsyncResult Begin_Add(AsyncCallback callback, object state, UserInfo user)
       {
         return send_Add(callback, state, user);
@@ -231,700 +250,753 @@ namespace Mistong.Services.UserService
         return recv_Add();
       }
 
-      #endif
+#endif
 
-      public bool @Add(UserInfo user)
-      {
-        #if !SILVERLIGHT
-        send_Add(user);
-        return recv_Add();
+            public bool @Add(UserInfo user)
+            {
+#if !SILVERLIGHT
+                send_Add(user);
+                return recv_Add();
 
-        #else
+#else
         var asyncResult = Begin_Add(null, null, user);
         return End_Add(asyncResult);
 
-        #endif
-      }
-      #if SILVERLIGHT
+#endif
+            }
+#if SILVERLIGHT
       public IAsyncResult send_Add(AsyncCallback callback, object state, UserInfo user)
-      #else
-      public void send_Add(UserInfo user)
-      #endif
-      {
-        oprot_.WriteMessageBegin(new TMessage("Add", TMessageType.Call, seqid_));
-        Add_args args = new Add_args();
-        args.User = user;
-        args.Write(oprot_);
-        oprot_.WriteMessageEnd();
-        #if SILVERLIGHT
+#else
+            public void send_Add(UserInfo user)
+#endif
+            {
+                oprot_.WriteMessageBegin(new TMessage("Add", TMessageType.Call, seqid_));
+                Add_args args = new Add_args();
+                args.User = user;
+                args.Write(oprot_);
+                oprot_.WriteMessageEnd();
+#if SILVERLIGHT
         return oprot_.Transport.BeginFlush(callback, state);
-        #else
-        oprot_.Transport.Flush();
-        #endif
-      }
-
-      public bool recv_Add()
-      {
-        TMessage msg = iprot_.ReadMessageBegin();
-        if (msg.Type == TMessageType.Exception) {
-          TApplicationException x = TApplicationException.Read(iprot_);
-          iprot_.ReadMessageEnd();
-          throw x;
-        }
-        Add_result result = new Add_result();
-        result.Read(iprot_);
-        iprot_.ReadMessageEnd();
-        if (result.Success.HasValue) {
-          return result.Success.Value;
-        }
-        throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "Add failed: unknown result");
-      }
-	
-    }
-    public class Processor : TProcessor {
-      public Processor(ISync iface)
-      {
-        iface_ = iface;
-        processMap_["GetUser"] = GetUser_Process;
-        processMap_["GetAll"] = GetAll_Process;
-        processMap_["Add"] = Add_Process;
-      }
-
-      protected delegate void ProcessFunction(int seqid, TProtocol iprot, TProtocol oprot);
-      private ISync iface_;
-      protected Dictionary<string, ProcessFunction> processMap_ = new Dictionary<string, ProcessFunction>();
-
-      public bool Process(TProtocol iprot, TProtocol oprot)
-      {
-        try
-        {
-          TMessage msg = iprot.ReadMessageBegin();
-          ProcessFunction fn;
-          processMap_.TryGetValue(msg.Name, out fn);
-          if (fn == null) {
-            TProtocolUtil.Skip(iprot, TType.Struct);
-            iprot.ReadMessageEnd();
-            TApplicationException x = new TApplicationException (TApplicationException.ExceptionType.UnknownMethod, "Invalid method name: '" + msg.Name + "'");
-            oprot.WriteMessageBegin(new TMessage(msg.Name, TMessageType.Exception, msg.SeqID));
-            x.Write(oprot);
-            oprot.WriteMessageEnd();
-            oprot.Transport.Flush();
-            return true;
-          }
-          fn(msg.SeqID, iprot, oprot);
-        }
-        catch (IOException)
-        {
-          return false;
-        }
-        return true;
-      }
-
-      public void GetUser_Process(int seqid, TProtocol iprot, TProtocol oprot)
-      {
-        GetUser_args args = new GetUser_args();
-        args.Read(iprot);
-        iprot.ReadMessageEnd();
-        GetUser_result result = new GetUser_result();
-        try
-        {
-          result.Success = iface_.GetUser(args.UserID.Value);
-          oprot.WriteMessageBegin(new TMessage("GetUser", TMessageType.Reply, seqid)); 
-          result.Write(oprot);
-        }
-        catch (TTransportException)
-        {
-          throw;
-        }
-        catch (Exception ex)
-        {
-          Console.Error.WriteLine("Error occurred in processor:");
-          Console.Error.WriteLine(ex.ToString());
-          TApplicationException x = new TApplicationException        (TApplicationException.ExceptionType.InternalError," Internal error.");
-          oprot.WriteMessageBegin(new TMessage("GetUser", TMessageType.Exception, seqid));
-          x.Write(oprot);
-        }
-        oprot.WriteMessageEnd();
-        oprot.Transport.Flush();
-      }
-
-      public void GetAll_Process(int seqid, TProtocol iprot, TProtocol oprot)
-      {
-        GetAll_args args = new GetAll_args();
-        args.Read(iprot);
-        iprot.ReadMessageEnd();
-        GetAll_result result = new GetAll_result();
-        try
-        {
-          result.Success = iface_.GetAll();
-          oprot.WriteMessageBegin(new TMessage("GetAll", TMessageType.Reply, seqid)); 
-          result.Write(oprot);
-        }
-        catch (TTransportException)
-        {
-          throw;
-        }
-        catch (Exception ex)
-        {
-          Console.Error.WriteLine("Error occurred in processor:");
-          Console.Error.WriteLine(ex.ToString());
-          TApplicationException x = new TApplicationException        (TApplicationException.ExceptionType.InternalError," Internal error.");
-          oprot.WriteMessageBegin(new TMessage("GetAll", TMessageType.Exception, seqid));
-          x.Write(oprot);
-        }
-        oprot.WriteMessageEnd();
-        oprot.Transport.Flush();
-      }
-
-      public void Add_Process(int seqid, TProtocol iprot, TProtocol oprot)
-      {
-        Add_args args = new Add_args();
-        args.Read(iprot);
-        iprot.ReadMessageEnd();
-        Add_result result = new Add_result();
-        try
-        {
-          result.Success = iface_.@Add(args.User);
-          oprot.WriteMessageBegin(new TMessage("Add", TMessageType.Reply, seqid)); 
-          result.Write(oprot);
-        }
-        catch (TTransportException)
-        {
-          throw;
-        }
-        catch (Exception ex)
-        {
-          Console.Error.WriteLine("Error occurred in processor:");
-          Console.Error.WriteLine(ex.ToString());
-          TApplicationException x = new TApplicationException        (TApplicationException.ExceptionType.InternalError," Internal error.");
-          oprot.WriteMessageBegin(new TMessage("Add", TMessageType.Exception, seqid));
-          x.Write(oprot);
-        }
-        oprot.WriteMessageEnd();
-        oprot.Transport.Flush();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class GetUser_args : TBase
-    {
-
-      public int? UserID { get; set; }
-
-      public GetUser_args() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
+#else
+                oprot_.Transport.Flush();
+#endif
             }
-            switch (field.ID)
+
+            public bool recv_Add()
             {
-              case 1:
-                if (field.Type == TType.I32) {
-                  UserID = iprot.ReadI32();
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
+                TMessage msg = iprot_.ReadMessageBegin();
+                if (msg.Type == TMessageType.Exception)
+                {
+                    TApplicationException x = TApplicationException.Read(iprot_);
+                    iprot_.ReadMessageEnd();
+                    throw x;
                 }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("GetUser_args");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-          if (UserID != null) {
-            field.Name = "UserID";
-            field.Type = TType.I32;
-            field.ID = 1;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteI32(UserID.Value);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("GetUser_args(");
-        bool __first = true;
-        if (UserID != null) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("UserID: ");
-          __sb.Append(UserID);
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class GetUser_result : TBase
-    {
-
-      public UserInfo Success { get; set; }
-
-      public GetUser_result() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 0:
-                if (field.Type == TType.Struct) {
-                  Success = new UserInfo();
-                  Success.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
+                Add_result result = new Add_result();
+                result.Read(iprot_);
+                iprot_.ReadMessageEnd();
+                if (result.Success.HasValue)
+                {
+                    return result.Success.Value;
                 }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
+                throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "Add failed: unknown result");
             }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
+
         }
-        finally
+        public class Processor : TProcessor
         {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("GetUser_result");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-
-          if (this.Success != null) {
-            field.Name = "Success";
-            field.Type = TType.Struct;
-            field.ID = 0;
-            oprot.WriteFieldBegin(field);
-            Success.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("GetUser_result(");
-        bool __first = true;
-        if (Success != null) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("Success: ");
-          __sb.Append(Success== null ? "<null>" : Success.ToString());
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class GetAll_args : TBase
-    {
-
-      public GetAll_args() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
+            public Processor(ISync iface)
             {
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
+                iface_ = iface;
+                processMap_["GetUser"] = GetUser_Process;
+                processMap_["GetAll"] = GetAll_Process;
+                processMap_["Add"] = Add_Process;
             }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
 
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("GetAll_args");
-          oprot.WriteStructBegin(struc);
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
+            protected delegate void ProcessFunction(int seqid, TProtocol iprot, TProtocol oprot);
+            private ISync iface_;
+            protected Dictionary<string, ProcessFunction> processMap_ = new Dictionary<string, ProcessFunction>();
 
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("GetAll_args(");
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class GetAll_result : TBase
-    {
-
-      public List<UserInfo> Success { get; set; }
-
-      public GetAll_result() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
+            public bool Process(TProtocol iprot, TProtocol oprot)
             {
-              case 0:
-                if (field.Type == TType.List) {
-                  {
-                    Success = new List<UserInfo>();
-                    TList _list0 = iprot.ReadListBegin();
-                    for( int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                try
+                {
+                    TMessage msg = iprot.ReadMessageBegin();
+                    ProcessFunction fn;
+                    processMap_.TryGetValue(msg.Name, out fn);
+                    if (fn == null)
                     {
-                      UserInfo _elem2;
-                      _elem2 = new UserInfo();
-                      _elem2.Read(iprot);
-                      Success.Add(_elem2);
+                        TProtocolUtil.Skip(iprot, TType.Struct);
+                        iprot.ReadMessageEnd();
+                        TApplicationException x = new TApplicationException(TApplicationException.ExceptionType.UnknownMethod, "Invalid method name: '" + msg.Name + "'");
+                        oprot.WriteMessageBegin(new TMessage(msg.Name, TMessageType.Exception, msg.SeqID));
+                        x.Write(oprot);
+                        oprot.WriteMessageEnd();
+                        oprot.Transport.Flush();
+                        return true;
                     }
-                    iprot.ReadListEnd();
-                  }
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
+                    fn(msg.SeqID, iprot, oprot);
                 }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
+                catch (IOException)
+                {
+                    return false;
+                }
+                return true;
             }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
 
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("GetAll_result");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-
-          if (this.Success != null) {
-            field.Name = "Success";
-            field.Type = TType.List;
-            field.ID = 0;
-            oprot.WriteFieldBegin(field);
+            public void GetUser_Process(int seqid, TProtocol iprot, TProtocol oprot)
             {
-              oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
-              foreach (UserInfo _iter3 in Success)
-              {
-                _iter3.Write(oprot);
-              }
-              oprot.WriteListEnd();
+                GetUser_args args = new GetUser_args();
+                args.Read(iprot);
+                iprot.ReadMessageEnd();
+                GetUser_result result = new GetUser_result();
+                try
+                {
+                    result.Success = iface_.GetUser(args.UserID.Value);
+                    oprot.WriteMessageBegin(new TMessage("GetUser", TMessageType.Reply, seqid));
+                    result.Write(oprot);
+                }
+                catch (TTransportException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Error occurred in processor:");
+                    Console.Error.WriteLine(ex.ToString());
+                    TApplicationException x = new TApplicationException(TApplicationException.ExceptionType.InternalError, " Internal error.");
+                    oprot.WriteMessageBegin(new TMessage("GetUser", TMessageType.Exception, seqid));
+                    x.Write(oprot);
+                }
+                oprot.WriteMessageEnd();
+                oprot.Transport.Flush();
             }
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
 
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("GetAll_result(");
-        bool __first = true;
-        if (Success != null) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("Success: ");
-          __sb.Append(Success);
+            public void GetAll_Process(int seqid, TProtocol iprot, TProtocol oprot)
+            {
+                GetAll_args args = new GetAll_args();
+                args.Read(iprot);
+                iprot.ReadMessageEnd();
+                GetAll_result result = new GetAll_result();
+                try
+                {
+                    result.Success = iface_.GetAll();
+                    oprot.WriteMessageBegin(new TMessage("GetAll", TMessageType.Reply, seqid));
+                    result.Write(oprot);
+                }
+                catch (TTransportException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Error occurred in processor:");
+                    Console.Error.WriteLine(ex.ToString());
+                    TApplicationException x = new TApplicationException(TApplicationException.ExceptionType.InternalError, " Internal error.");
+                    oprot.WriteMessageBegin(new TMessage("GetAll", TMessageType.Exception, seqid));
+                    x.Write(oprot);
+                }
+                oprot.WriteMessageEnd();
+                oprot.Transport.Flush();
+            }
+
+            public void Add_Process(int seqid, TProtocol iprot, TProtocol oprot)
+            {
+                Add_args args = new Add_args();
+                args.Read(iprot);
+                iprot.ReadMessageEnd();
+                Add_result result = new Add_result();
+                try
+                {
+                    result.Success = iface_.@Add(args.User);
+                    oprot.WriteMessageBegin(new TMessage("Add", TMessageType.Reply, seqid));
+                    result.Write(oprot);
+                }
+                catch (TTransportException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Error occurred in processor:");
+                    Console.Error.WriteLine(ex.ToString());
+                    TApplicationException x = new TApplicationException(TApplicationException.ExceptionType.InternalError, " Internal error.");
+                    oprot.WriteMessageBegin(new TMessage("Add", TMessageType.Exception, seqid));
+                    x.Write(oprot);
+                }
+                oprot.WriteMessageEnd();
+                oprot.Transport.Flush();
+            }
+
         }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
+
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public partial class GetUser_args : TBase
+        {
+
+            public int? UserID { get; set; }
+
+            public GetUser_args()
+            {
+            }
+
+            public void Read(TProtocol iprot)
+            {
+                iprot.IncrementRecursionDepth();
+                try
+                {
+                    TField field;
+                    iprot.ReadStructBegin();
+                    while (true)
+                    {
+                        field = iprot.ReadFieldBegin();
+                        if (field.Type == TType.Stop)
+                        {
+                            break;
+                        }
+                        switch (field.ID)
+                        {
+                            case 1:
+                                if (field.Type == TType.I32)
+                                {
+                                    UserID = iprot.ReadI32();
+                                }
+                                else
+                                {
+                                    TProtocolUtil.Skip(iprot, field.Type);
+                                }
+                                break;
+                            default:
+                                TProtocolUtil.Skip(iprot, field.Type);
+                                break;
+                        }
+                        iprot.ReadFieldEnd();
+                    }
+                    iprot.ReadStructEnd();
+                }
+                finally
+                {
+                    iprot.DecrementRecursionDepth();
+                }
+            }
+
+            public void Write(TProtocol oprot)
+            {
+                oprot.IncrementRecursionDepth();
+                try
+                {
+                    TStruct struc = new TStruct("GetUser_args");
+                    oprot.WriteStructBegin(struc);
+                    TField field = new TField();
+                    if (UserID != null)
+                    {
+                        field.Name = "UserID";
+                        field.Type = TType.I32;
+                        field.ID = 1;
+                        oprot.WriteFieldBegin(field);
+                        oprot.WriteI32(UserID.Value);
+                        oprot.WriteFieldEnd();
+                    }
+                    oprot.WriteFieldStop();
+                    oprot.WriteStructEnd();
+                }
+                finally
+                {
+                    oprot.DecrementRecursionDepth();
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder __sb = new StringBuilder("GetUser_args(");
+                bool __first = true;
+                if (UserID != null)
+                {
+                    if (!__first) { __sb.Append(", "); }
+                    __first = false;
+                    __sb.Append("UserID: ");
+                    __sb.Append(UserID);
+                }
+                __sb.Append(")");
+                return __sb.ToString();
+            }
+
+        }
+
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public partial class GetUser_result : TBase
+        {
+
+            public UserInfo Success { get; set; }
+
+            public GetUser_result()
+            {
+            }
+
+            public void Read(TProtocol iprot)
+            {
+                iprot.IncrementRecursionDepth();
+                try
+                {
+                    TField field;
+                    iprot.ReadStructBegin();
+                    while (true)
+                    {
+                        field = iprot.ReadFieldBegin();
+                        if (field.Type == TType.Stop)
+                        {
+                            break;
+                        }
+                        switch (field.ID)
+                        {
+                            case 0:
+                                if (field.Type == TType.Struct)
+                                {
+                                    Success = new UserInfo();
+                                    Success.Read(iprot);
+                                }
+                                else
+                                {
+                                    TProtocolUtil.Skip(iprot, field.Type);
+                                }
+                                break;
+                            default:
+                                TProtocolUtil.Skip(iprot, field.Type);
+                                break;
+                        }
+                        iprot.ReadFieldEnd();
+                    }
+                    iprot.ReadStructEnd();
+                }
+                finally
+                {
+                    iprot.DecrementRecursionDepth();
+                }
+            }
+
+            public void Write(TProtocol oprot)
+            {
+                oprot.IncrementRecursionDepth();
+                try
+                {
+                    TStruct struc = new TStruct("GetUser_result");
+                    oprot.WriteStructBegin(struc);
+                    TField field = new TField();
+
+                    if (this.Success != null)
+                    {
+                        field.Name = "Success";
+                        field.Type = TType.Struct;
+                        field.ID = 0;
+                        oprot.WriteFieldBegin(field);
+                        Success.Write(oprot);
+                        oprot.WriteFieldEnd();
+                    }
+                    oprot.WriteFieldStop();
+                    oprot.WriteStructEnd();
+                }
+                finally
+                {
+                    oprot.DecrementRecursionDepth();
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder __sb = new StringBuilder("GetUser_result(");
+                bool __first = true;
+                if (Success != null)
+                {
+                    if (!__first) { __sb.Append(", "); }
+                    __first = false;
+                    __sb.Append("Success: ");
+                    __sb.Append(Success == null ? "<null>" : Success.ToString());
+                }
+                __sb.Append(")");
+                return __sb.ToString();
+            }
+
+        }
+
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public partial class GetAll_args : TBase
+        {
+
+            public GetAll_args()
+            {
+            }
+
+            public void Read(TProtocol iprot)
+            {
+                iprot.IncrementRecursionDepth();
+                try
+                {
+                    TField field;
+                    iprot.ReadStructBegin();
+                    while (true)
+                    {
+                        field = iprot.ReadFieldBegin();
+                        if (field.Type == TType.Stop)
+                        {
+                            break;
+                        }
+                        switch (field.ID)
+                        {
+                            default:
+                                TProtocolUtil.Skip(iprot, field.Type);
+                                break;
+                        }
+                        iprot.ReadFieldEnd();
+                    }
+                    iprot.ReadStructEnd();
+                }
+                finally
+                {
+                    iprot.DecrementRecursionDepth();
+                }
+            }
+
+            public void Write(TProtocol oprot)
+            {
+                oprot.IncrementRecursionDepth();
+                try
+                {
+                    TStruct struc = new TStruct("GetAll_args");
+                    oprot.WriteStructBegin(struc);
+                    oprot.WriteFieldStop();
+                    oprot.WriteStructEnd();
+                }
+                finally
+                {
+                    oprot.DecrementRecursionDepth();
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder __sb = new StringBuilder("GetAll_args(");
+                __sb.Append(")");
+                return __sb.ToString();
+            }
+
+        }
+
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public partial class GetAll_result : TBase
+        {
+
+            public List<UserInfo> Success { get; set; }
+
+            public GetAll_result()
+            {
+            }
+
+            public void Read(TProtocol iprot)
+            {
+                iprot.IncrementRecursionDepth();
+                try
+                {
+                    TField field;
+                    iprot.ReadStructBegin();
+                    while (true)
+                    {
+                        field = iprot.ReadFieldBegin();
+                        if (field.Type == TType.Stop)
+                        {
+                            break;
+                        }
+                        switch (field.ID)
+                        {
+                            case 0:
+                                if (field.Type == TType.List)
+                                {
+                                    {
+                                        Success = new List<UserInfo>();
+                                        TList _list0 = iprot.ReadListBegin();
+                                        for (int _i1 = 0; _i1 < _list0.Count; ++_i1)
+                                        {
+                                            UserInfo _elem2;
+                                            _elem2 = new UserInfo();
+                                            _elem2.Read(iprot);
+                                            Success.Add(_elem2);
+                                        }
+                                        iprot.ReadListEnd();
+                                    }
+                                }
+                                else
+                                {
+                                    TProtocolUtil.Skip(iprot, field.Type);
+                                }
+                                break;
+                            default:
+                                TProtocolUtil.Skip(iprot, field.Type);
+                                break;
+                        }
+                        iprot.ReadFieldEnd();
+                    }
+                    iprot.ReadStructEnd();
+                }
+                finally
+                {
+                    iprot.DecrementRecursionDepth();
+                }
+            }
+
+            public void Write(TProtocol oprot)
+            {
+                oprot.IncrementRecursionDepth();
+                try
+                {
+                    TStruct struc = new TStruct("GetAll_result");
+                    oprot.WriteStructBegin(struc);
+                    TField field = new TField();
+
+                    if (this.Success != null)
+                    {
+                        field.Name = "Success";
+                        field.Type = TType.List;
+                        field.ID = 0;
+                        oprot.WriteFieldBegin(field);
+                        {
+                            oprot.WriteListBegin(new TList(TType.Struct, Success.Count));
+                            foreach (UserInfo _iter3 in Success)
+                            {
+                                _iter3.Write(oprot);
+                            }
+                            oprot.WriteListEnd();
+                        }
+                        oprot.WriteFieldEnd();
+                    }
+                    oprot.WriteFieldStop();
+                    oprot.WriteStructEnd();
+                }
+                finally
+                {
+                    oprot.DecrementRecursionDepth();
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder __sb = new StringBuilder("GetAll_result(");
+                bool __first = true;
+                if (Success != null)
+                {
+                    if (!__first) { __sb.Append(", "); }
+                    __first = false;
+                    __sb.Append("Success: ");
+                    __sb.Append(Success);
+                }
+                __sb.Append(")");
+                return __sb.ToString();
+            }
+
+        }
+
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public partial class Add_args : TBase
+        {
+
+            public UserInfo User { get; set; }
+
+            public Add_args()
+            {
+            }
+
+            public void Read(TProtocol iprot)
+            {
+                iprot.IncrementRecursionDepth();
+                try
+                {
+                    TField field;
+                    iprot.ReadStructBegin();
+                    while (true)
+                    {
+                        field = iprot.ReadFieldBegin();
+                        if (field.Type == TType.Stop)
+                        {
+                            break;
+                        }
+                        switch (field.ID)
+                        {
+                            case 1:
+                                if (field.Type == TType.Struct)
+                                {
+                                    User = new UserInfo();
+                                    User.Read(iprot);
+                                }
+                                else
+                                {
+                                    TProtocolUtil.Skip(iprot, field.Type);
+                                }
+                                break;
+                            default:
+                                TProtocolUtil.Skip(iprot, field.Type);
+                                break;
+                        }
+                        iprot.ReadFieldEnd();
+                    }
+                    iprot.ReadStructEnd();
+                }
+                finally
+                {
+                    iprot.DecrementRecursionDepth();
+                }
+            }
+
+            public void Write(TProtocol oprot)
+            {
+                oprot.IncrementRecursionDepth();
+                try
+                {
+                    TStruct struc = new TStruct("Add_args");
+                    oprot.WriteStructBegin(struc);
+                    TField field = new TField();
+                    if (User != null)
+                    {
+                        field.Name = "user";
+                        field.Type = TType.Struct;
+                        field.ID = 1;
+                        oprot.WriteFieldBegin(field);
+                        User.Write(oprot);
+                        oprot.WriteFieldEnd();
+                    }
+                    oprot.WriteFieldStop();
+                    oprot.WriteStructEnd();
+                }
+                finally
+                {
+                    oprot.DecrementRecursionDepth();
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder __sb = new StringBuilder("Add_args(");
+                bool __first = true;
+                if (User != null)
+                {
+                    if (!__first) { __sb.Append(", "); }
+                    __first = false;
+                    __sb.Append("User: ");
+                    __sb.Append(User == null ? "<null>" : User.ToString());
+                }
+                __sb.Append(")");
+                return __sb.ToString();
+            }
+
+        }
+
+
+#if !SILVERLIGHT
+        [Serializable]
+#endif
+        public partial class Add_result : TBase
+        {
+
+            public bool? Success { get; set; }
+
+            public Add_result()
+            {
+            }
+
+            public void Read(TProtocol iprot)
+            {
+                iprot.IncrementRecursionDepth();
+                try
+                {
+                    TField field;
+                    iprot.ReadStructBegin();
+                    while (true)
+                    {
+                        field = iprot.ReadFieldBegin();
+                        if (field.Type == TType.Stop)
+                        {
+                            break;
+                        }
+                        switch (field.ID)
+                        {
+                            case 0:
+                                if (field.Type == TType.Bool)
+                                {
+                                    Success = iprot.ReadBool();
+                                }
+                                else
+                                {
+                                    TProtocolUtil.Skip(iprot, field.Type);
+                                }
+                                break;
+                            default:
+                                TProtocolUtil.Skip(iprot, field.Type);
+                                break;
+                        }
+                        iprot.ReadFieldEnd();
+                    }
+                    iprot.ReadStructEnd();
+                }
+                finally
+                {
+                    iprot.DecrementRecursionDepth();
+                }
+            }
+
+            public void Write(TProtocol oprot)
+            {
+                oprot.IncrementRecursionDepth();
+                try
+                {
+                    TStruct struc = new TStruct("Add_result");
+                    oprot.WriteStructBegin(struc);
+                    TField field = new TField();
+
+                    if (this.Success != null)
+                    {
+                        field.Name = "Success";
+                        field.Type = TType.Bool;
+                        field.ID = 0;
+                        oprot.WriteFieldBegin(field);
+                        oprot.WriteBool(Success.Value);
+                        oprot.WriteFieldEnd();
+                    }
+                    oprot.WriteFieldStop();
+                    oprot.WriteStructEnd();
+                }
+                finally
+                {
+                    oprot.DecrementRecursionDepth();
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder __sb = new StringBuilder("Add_result(");
+                bool __first = true;
+                if (Success != null)
+                {
+                    if (!__first) { __sb.Append(", "); }
+                    __first = false;
+                    __sb.Append("Success: ");
+                    __sb.Append(Success);
+                }
+                __sb.Append(")");
+                return __sb.ToString();
+            }
+
+        }
 
     }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class Add_args : TBase
-    {
-
-      public UserInfo User { get; set; }
-
-      public Add_args() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 1:
-                if (field.Type == TType.Struct) {
-                  User = new UserInfo();
-                  User.Read(iprot);
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("Add_args");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-          if (User != null) {
-            field.Name = "user";
-            field.Type = TType.Struct;
-            field.ID = 1;
-            oprot.WriteFieldBegin(field);
-            User.Write(oprot);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("Add_args(");
-        bool __first = true;
-        if (User != null) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("User: ");
-          __sb.Append(User== null ? "<null>" : User.ToString());
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-
-    #if !SILVERLIGHT
-    [Serializable]
-    #endif
-    public partial class Add_result : TBase
-    {
-
-      public bool? Success { get; set; }
-
-      public Add_result() {
-      }
-
-      public void Read (TProtocol iprot)
-      {
-        iprot.IncrementRecursionDepth();
-        try
-        {
-          TField field;
-          iprot.ReadStructBegin();
-          while (true)
-          {
-            field = iprot.ReadFieldBegin();
-            if (field.Type == TType.Stop) { 
-              break;
-            }
-            switch (field.ID)
-            {
-              case 0:
-                if (field.Type == TType.Bool) {
-                  Success = iprot.ReadBool();
-                } else { 
-                  TProtocolUtil.Skip(iprot, field.Type);
-                }
-                break;
-              default: 
-                TProtocolUtil.Skip(iprot, field.Type);
-                break;
-            }
-            iprot.ReadFieldEnd();
-          }
-          iprot.ReadStructEnd();
-        }
-        finally
-        {
-          iprot.DecrementRecursionDepth();
-        }
-      }
-
-      public void Write(TProtocol oprot) {
-        oprot.IncrementRecursionDepth();
-        try
-        {
-          TStruct struc = new TStruct("Add_result");
-          oprot.WriteStructBegin(struc);
-          TField field = new TField();
-
-          if (this.Success != null) {
-            field.Name = "Success";
-            field.Type = TType.Bool;
-            field.ID = 0;
-            oprot.WriteFieldBegin(field);
-            oprot.WriteBool(Success.Value);
-            oprot.WriteFieldEnd();
-          }
-          oprot.WriteFieldStop();
-          oprot.WriteStructEnd();
-        }
-        finally
-        {
-          oprot.DecrementRecursionDepth();
-        }
-      }
-
-      public override string ToString() {
-        StringBuilder __sb = new StringBuilder("Add_result(");
-        bool __first = true;
-        if (Success != null) {
-          if(!__first) { __sb.Append(", "); }
-          __first = false;
-          __sb.Append("Success: ");
-          __sb.Append(Success);
-        }
-        __sb.Append(")");
-        return __sb.ToString();
-      }
-
-    }
-
-  }
 }
