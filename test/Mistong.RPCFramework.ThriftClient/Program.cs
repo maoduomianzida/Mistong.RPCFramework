@@ -44,7 +44,6 @@ namespace Mistong.RPCFramework.ThriftClient
                             UserInfo user = userService.GetUser(10);
                         }
 
-                        Thread.Sleep(100);
                         dis = userService as IDisposable;
                         Console.WriteLine("OK");
                     }
@@ -76,6 +75,7 @@ namespace Mistong.RPCFramework.ThriftClient
             watch.Stop();
             Console.WriteLine("耗时" + watch.ElapsedMilliseconds);
             ThriftConnectionPool pool = GlobalSetting.GetService<IThriftConnectionPool>() as ThriftConnectionPool;
+            if (pool == null) return;
             foreach (var item in pool.ConnectionStore.ConnectionPool)
             {
                 Console.WriteLine("连接池内的TTransport：" + item.Value.Count);

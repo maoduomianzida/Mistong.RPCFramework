@@ -37,8 +37,7 @@ namespace Mistong.RPCFramework.UnitTest
         public void 测试ConsulServiceRegistry注册()
         {
             ServiceConfig config = _configuration.GetServiceConfig();
-            ThriftServiceRegistry registry = new ThriftServiceRegistry();
-            registry.RegistrationCenter = config.RegistrationCenter;
+            ThriftServiceRegistry registry = new ThriftServiceRegistry(config.RegistrationCenter,TimeSpan.FromSeconds(3));
             registry.Register(config.Server.Services);
         }
 

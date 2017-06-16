@@ -43,6 +43,7 @@ namespace Mistong.RPCFramework.Thrift
 
         public virtual void Register(ICollection<Service> services)
         {
+            if (services.Count == 0) return;
             Task<WriteResult>[] taskArr = services.Cast<ThriftService>().Select(service =>
             {
                 var tmpTask = _client.Agent.ServiceRegister(AgentServiceHelper.CreateAgentService(service));
@@ -84,6 +85,7 @@ namespace Mistong.RPCFramework.Thrift
 
         public virtual void AddHeadlthCheck(ICollection<Service> services)
         {
+            if (services.Count == 0) return;
             IServiceHealthCheckCreator checkCreator = GlobalSetting.GetService<IServiceHealthCheckCreator>();
             if (checkCreator == null) throw new NullReferenceException("IServiceHealthCheckCreator接口不能为空");
             AgentCheckRegistration check = checkCreator.CreateCheck();

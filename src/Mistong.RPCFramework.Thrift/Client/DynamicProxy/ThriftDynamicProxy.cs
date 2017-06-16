@@ -16,7 +16,7 @@ namespace Mistong.RPCFramework.Thrift
         private string _dynamicAsseblyName;
         private AssemblyBuilder _assemblyBuilder;
         private ModuleBuilder _moduleBuilder;
-        private ConcurrentDictionary<Type, Type> _dynamicProxyCache;
+        private ConcurrentDictionary<Type, Lazy<Type>> _dynamicProxyCache;
         private MethodInfo _handException;
         private ConstructorInfo _exceptionContextCtor;
         private object createLock = new object();
@@ -28,7 +28,7 @@ namespace Mistong.RPCFramework.Thrift
                 throw new ArgumentException(nameof(dynamicAsseblyName) + "参数不能为null或者空字符串");
             }
             _dynamicAsseblyName = dynamicAsseblyName;
-            _dynamicProxyCache = new ConcurrentDictionary<Type, Type>();
+            _dynamicProxyCache = new ConcurrentDictionary<Type, Lazy<Type>>();
             _handException = typeof(IServiceContainerExtension).GetMethod("HandException", BindingFlags.Public | BindingFlags.Static);
             _exceptionContextCtor = typeof(ExceptionContext).GetConstructor(new Type[] { typeof(Exception) });
             BuildDynamicAssembly();
@@ -46,18 +46,7 @@ namespace Mistong.RPCFramework.Thrift
             if (interfaceType == null) throw new ArgumentNullException(nameof(interfaceType));
 
             return _dynamicProxyCache.GetOrAdd(interfaceType,
-                      type =>
-                      {
-                          Type result;
-                          if(_dynamicProxyCache.TryGetValue(type,out result)) return result;
-                          lock(createLock)
-                          {
-                              if (_dynamicProxyCache.TryGetValue(type, out result)) return result;
-                              result = CreateProxyCore(type);
-                          }
-
-                          return result;
-                      });
+                      type => new Lazy<Type>(() => CreateProxyCore(type), LazyThreadSafetyMode.PublicationOnly)).Value;
         }
 
         private IEnumerable<MethodInfo> GetAllMethods(Type interfaceType)
