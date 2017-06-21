@@ -9,18 +9,13 @@ namespace Mistong.RPCFramework.Thrift
     public class ThriftClientConfig : ClientConfig
     {
         /// <summary>
-        /// 连接池的最大连接数，默认50
+        /// 客户端连接池配置
         /// </summary>
-        public int? ConnectionLimit { get; set; }
+        public ThriftConnectionPoolConfig ConnectionPool { get; set; }
 
         /// <summary>
-        /// 当连接达到最大限制时，等待其它线程释放连接的超时时间（毫秒），默认1000毫秒
+        /// 客户端熔断器配置
         /// </summary>
-        public int? WaitFreeMillisecond { get; set; }
-
-        /// <summary>
-        /// 连接池连接的超时时间，默认5分钟
-        /// </summary>
-        public TimeSpan? ConnectionOverdueInterval { get; set; }
+        public CircuitBreakerConfig CircuitBreaker { get; set; }
     }
 }

@@ -47,6 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\AgentServiceMap.cs" />
+    <Compile Include="Client\CircuitBreaker\CircuitBreaker.cs" />
+    <Compile Include="Client\CircuitBreaker\CircuitBreakerSetting.cs" />
+    <Compile Include="Client\CircuitBreaker\CircuitBreakerState.cs" />
+    <Compile Include="Client\CircuitBreaker\CloseState.cs" />
+    <Compile Include="Client\CircuitBreaker\Exception\CircuitBreakerException.cs" />
+    <Compile Include="Client\CircuitBreaker\Exception\RemoteResourceException.cs" />
+    <Compile Include="Client\CircuitBreaker\Extension\TimerExtension.cs" />
+    <Compile Include="Client\CircuitBreaker\HalfOpenState.cs" />
+    <Compile Include="Client\CircuitBreaker\OpenState.cs" />
     <Compile Include="Client\ConnectionPool\DecorateTransport.cs" />
     <Compile Include="Client\ConnectionPool\FreshConnectionPool.cs" />
     <Compile Include="Client\ConnectionPool\IThriftConnectionPool.cs" />
@@ -61,8 +70,10 @@
     <Compile Include="Client\ThriftServiceAssembliesResolver.cs" />
     <Compile Include="Client\ThriftServiceClientActivator.cs" />
     <Compile Include="Client\ConnectionPool\TransportPoolItem.cs" />
+    <Compile Include="Config\CircuitBreakerConfig.cs" />
     <Compile Include="Config\ServiceCheckConfig.cs" />
     <Compile Include="Config\ThriftClientConfig.cs" />
+    <Compile Include="Config\ThriftConnectionPoolConfig.cs" />
     <Compile Include="Config\ThriftServerConfig.cs" />
     <Compile Include="Converter\ThriftClientConfigConverter.cs" />
     <Compile Include="Converter\ThriftServerConfigConverter.cs" />

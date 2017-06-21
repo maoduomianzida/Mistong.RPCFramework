@@ -6,5 +6,11 @@
     ]
   },
   "client": {
+    "circuitBreaker": {
+      "allowFailInterval": "00:00:60",
+      "allowFailTimes": 5,
+      "halfOpenDuration": "00:00:60",
+      "halfOpenRequestLimit": 100
+    }
   }
 }
