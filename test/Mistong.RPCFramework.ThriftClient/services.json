@@ -7,9 +7,9 @@
   },
   "client": {
     "circuitBreaker": {
-      "allowFailInterval": "00:00:60",
+      "allowFailInterval": "00:01:00",
       "allowFailTimes": 5,
-      "halfOpenDuration": "00:00:60",
+      "halfOpenDuration": "00:01:00",
       "halfOpenRequestLimit": 100
     }
   }

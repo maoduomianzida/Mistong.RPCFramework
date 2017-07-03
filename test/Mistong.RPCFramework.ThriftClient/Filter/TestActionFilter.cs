@@ -3,25 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mistong.RPCFramework.Thrift;
 
 namespace Mistong.RPCFramework.ThriftClient
 {
     public class TestActionFilter : IActionFilter
     {
-        public void ExecuteAfter()
+        public void ExecuteAfter(ActionResult result)
         {
-            lock(this)
-            {
-                Console.WriteLine("执行后");
-            }
+            Console.WriteLine("执行后");
         }
 
-        public void ExecuteBefore()
+        public void ExecuteBefore(ActionContext context)
         {
-            lock (this)
-            {
-                Console.WriteLine("执行前");
-            }
+            Console.WriteLine("执行前");
         }
     }
 }

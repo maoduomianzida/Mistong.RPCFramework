@@ -14,9 +14,15 @@ namespace Mistong.RPCFramework.Thrift
 
         public bool HandException { get; set; }
 
-        public ExceptionContext(ActionDescriptor actionDescriptor,Exception err)
+        public ExceptionContext(Exception err)
         {
-            ActionDescriptor = actionDescriptor ?? throw new ArgumentNullException(nameof(err));
+            Exception = err ?? throw new ArgumentNullException(nameof(err));
+            HandException = false;
+        }
+
+        public ExceptionContext(ActionDescriptor actionDescriptor, Exception err)
+        {
+            ActionDescriptor = actionDescriptor; // ?? throw new ArgumentNullException(nameof(err));
             Exception = err ?? throw new ArgumentNullException(nameof(err));
             HandException = false;
         }

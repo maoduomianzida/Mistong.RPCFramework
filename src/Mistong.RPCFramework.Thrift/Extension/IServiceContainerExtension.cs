@@ -68,14 +68,14 @@ namespace Mistong.RPCFramework.Thrift
             }
         }
 
-        public static void ActionExecuteAfter(this IServiceContainer container,ActionResult result)
+        public static void ActionExecuteAfter(this IServiceContainer container)
         {
             if (container == null) throw new ArgumentNullException(nameof(container));
             var realContainer = MustThriftServiceContainer(container);
             realContainer.Filters.Build();
             foreach (IActionFilter filter in realContainer.Filters.ActionFilters.Reverse())
             {
-                filter.ExecuteAfter(result);
+                filter.ExecuteAfter(null);
             }
         }
     }

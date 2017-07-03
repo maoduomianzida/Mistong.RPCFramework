@@ -126,6 +126,61 @@ namespace Mistong.RPCFramework.Thrift
             il.Emit(OpCodes.Ret);
         }
 
+        private void BuildActionDescriptor(ILGenerator il,MethodInfo methodInfo)
+        {
+            ParameterInfo[] paramArr = methodInfo.GetParameters();
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Callvirt, typeof(object).GetMethod("GetType"));
+            il.Emit(OpCodes.Ldstr, methodInfo.Name);
+            il.Emit(OpCodes.Ldc_I4, methodInfo.GetParameters().Length);
+            il.Emit(OpCodes.Newarr,typeof(Type));
+            for(int i = 0; i < paramArr.Length; i++)
+            {
+                il.Emit(OpCodes.Dup);
+                il.Emit(OpCodes.Ldc_I4,i);
+                il.Emit(OpCodes.Ldtoken,paramArr[i].ParameterType);
+                il.Emit(OpCodes.Call,typeof(Type).GetMethod("GetTypeFromHandle",new Type[] { typeof(RuntimeTypeHandle) }));
+                il.Emit(OpCodes.Stelem_Ref);
+            }
+            il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(string),typeof(Type[]) }));
+            il.Emit(OpCodes.Newobj,typeof(ActionDescriptor).GetConstructor(new Type[] { typeof(MethodInfo)}));
+            il.Emit(OpCodes.Stloc_2);
+        }
+
+        private void BuildActionParams(ILGenerator il, MethodInfo methodInfo)
+        {
+            ParameterInfo[] paramArr = methodInfo.GetParameters();
+            Type keyType = typeof(string);
+            Type valueType = typeof(object);
+            Type dicType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
+            il.Emit(OpCodes.Newobj,dicType.GetConstructor(new Type[] { }));
+            for(int i = 0; i < paramArr.Length ;i++)
+            {
+                ParameterInfo parameter = paramArr[i];
+                il.Emit(OpCodes.Dup);
+                il.Emit(OpCodes.Ldstr,parameter.Name);
+                il.Emit(OpCodes.Ldarg_S, i + 1);
+                if (parameter.ParameterType.IsValueType)
+                {
+                    il.Emit(OpCodes.Box,parameter.ParameterType);
+                }
+                il.Emit(OpCodes.Callvirt,dicType.GetMethod("Add",new Type[] { keyType, valueType }));
+            }
+        }
+
+        private void BuildActionContext(ILGenerator il,MethodInfo methodInfo)
+        {
+            il.Emit(OpCodes.Ldloc_2);
+            il.Emit(OpCodes.Ldarg_0);
+            BuildActionParams(il,methodInfo);
+            il.Emit(OpCodes.Newobj,typeof(ActionContext).GetConstructor(
+                new Type[] {
+                    typeof(ActionDescriptor),
+                    typeof(object),
+                    typeof(IDictionary<,>).MakeGenericType(typeof(string),typeof(object))
+                }));
+        }
+
         protected virtual void BuildMethod(TypeBuilder typeBuilder, MethodInfo methodInfo, FieldBuilder field)
         {
             MethodBuilder method = typeBuilder.DefineMethod(methodInfo.Name,
@@ -141,11 +196,14 @@ namespace Mistong.RPCFramework.Thrift
             bool haveReturnType = methodInfo.ReturnType != typeof(void);
             il.DeclareLocal(typeof(ExceptionContext));
             il.DeclareLocal(typeof(IServiceContainer));
+            il.DeclareLocal(typeof(ActionDescriptor));
             if (haveReturnType) il.DeclareLocal(methodInfo.ReturnType);
+            BuildActionDescriptor(il, methodInfo);
             il.Emit(OpCodes.Call, typeof(GlobalSetting).GetProperty("Container", BindingFlags.Public | BindingFlags.Static).GetMethod);
             il.Emit(OpCodes.Stloc_1);
             il.Emit(OpCodes.Ldloc_1);
-            il.Emit(OpCodes.Call, typeof(IServiceContainerExtension).GetMethod("ActionExecuteBefore", BindingFlags.Public | BindingFlags.Static));
+            BuildActionContext(il, methodInfo);
+            il.Emit(OpCodes.Call, typeof(IServiceContainerExtension).GetMethod("ActionExecuteBefore",new Type[] { typeof(IServiceContainer),typeof(ActionContext) }));
             il.BeginExceptionBlock();
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Ldfld, field);
@@ -154,7 +212,7 @@ namespace Mistong.RPCFramework.Thrift
                 il.Emit(OpCodes.Ldarg_S, (i + 1));
             }
             il.Emit(OpCodes.Callvirt, methodInfo);
-            if (haveReturnType) il.Emit(OpCodes.Stloc_2);
+            if (haveReturnType) il.Emit(OpCodes.Stloc_3);
             il.BeginCatchBlock(typeof(Exception));
             il.Emit(OpCodes.Newobj, _exceptionContextCtor);
             il.Emit(OpCodes.Stloc_0);
@@ -163,12 +221,12 @@ namespace Mistong.RPCFramework.Thrift
             il.Emit(OpCodes.Call, _handException.MakeGenericMethod(haveReturnType ? methodInfo.ReturnType : typeof(object)));
             if (haveReturnType)
             {
-                il.Emit(OpCodes.Stloc_2);
+                il.Emit(OpCodes.Stloc_3);
             }
             il.EndExceptionBlock();
             il.Emit(OpCodes.Ldloc_1);
             il.Emit(OpCodes.Call, typeof(IServiceContainerExtension).GetMethod("ActionExecuteAfter", BindingFlags.Public | BindingFlags.Static));
-            if (haveReturnType) il.Emit(OpCodes.Ldloc_2);
+            if (haveReturnType) il.Emit(OpCodes.Ldloc_3);
 
             il.Emit(OpCodes.Ret);
         }
