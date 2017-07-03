@@ -57,25 +57,25 @@ namespace Mistong.RPCFramework.Thrift
             return default(T);
         }
 
-        public static void ActionExecuteBefore(this IServiceContainer container)
+        public static void ActionExecuteBefore(this IServiceContainer container,ActionContext context)
         {
             if (container == null) throw new ArgumentNullException(nameof(container));
             var realContainer = MustThriftServiceContainer(container);
             realContainer.Filters.Build();
             foreach(IActionFilter filter in realContainer.Filters.ActionFilters)
             {
-                filter.ExecuteBefore();
+                filter.ExecuteBefore(context);
             }
         }
 
-        public static void ActionExecuteAfter(this IServiceContainer container)
+        public static void ActionExecuteAfter(this IServiceContainer container,ActionResult result)
         {
             if (container == null) throw new ArgumentNullException(nameof(container));
             var realContainer = MustThriftServiceContainer(container);
             realContainer.Filters.Build();
             foreach (IActionFilter filter in realContainer.Filters.ActionFilters.Reverse())
             {
-                filter.ExecuteAfter();
+                filter.ExecuteAfter(result);
             }
         }
     }

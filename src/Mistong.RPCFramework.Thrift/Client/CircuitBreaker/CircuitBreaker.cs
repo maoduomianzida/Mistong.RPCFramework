@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework.CircuitBreaker
 {
-    public class CircuitBreaker
+    public class CircuitBreaker : IDisposable
     {
         private CircuitBreakerState _openState;
         private CircuitBreakerState _closeState;
@@ -40,6 +40,38 @@ namespace Mistong.RPCFramework.CircuitBreaker
                 throw new ArgumentException("打开状态下切换到半开状态的时间间隔不能小于0");
             if (setting.HalfOpenRequestLimit <= 0)
                 throw new ArgumentException("半开状态下允许的请求次数不能小于0");
+        }
+
+        public void ExecuteBefore()
+        {
+            lock (_lockObject)
+            {
+                _currentState.ProcessBefore();
+            }
+        }
+
+        public void ExecuteAfter()
+        {
+            lock (_lockObject)
+            {
+                _currentState.ProcessSuccess();
+            }
+        }
+
+        public void ExecuteFail(RemoteResourceException err)
+        {
+            lock (_lockObject)
+            {
+                _currentState.ProcessFail();
+            }
+            if (_setting.ExceptionProcess == null)
+            {
+                throw err;
+            }
+            else
+            {
+                _setting.ExceptionProcess(err);
+            }
         }
 
         public void Execute()
@@ -92,6 +124,25 @@ namespace Mistong.RPCFramework.CircuitBreaker
             _currentState?.Clear();
             _currentState = _halfOpenState;
             _currentState.Initialize();
+        }
+
+        public void Dispose()
+        {
+            if (_openState is IDisposable openState)
+            {
+                openState.Dispose();
+                _openState = null;
+            }
+            if (_closeState is IDisposable closeState)
+            {
+                closeState.Dispose();
+                _closeState = null;
+            }
+            if (_halfOpenState is IDisposable halfOpenState)
+            {
+                halfOpenState.Dispose();
+                _halfOpenState = null;
+            }
         }
     }
 }

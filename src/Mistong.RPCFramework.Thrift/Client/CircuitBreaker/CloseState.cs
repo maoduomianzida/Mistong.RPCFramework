@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework.CircuitBreaker
 {
-    public class CloseState : CircuitBreakerState
+    public class CloseState : CircuitBreakerState,IDisposable
     {
         private readonly Tuple<TimeSpan, int> _allowFailSetting;
         private Timer _timer;
@@ -61,6 +61,12 @@ namespace Mistong.RPCFramework.CircuitBreaker
         {
             _timer.Stop();
             ResetFailTimes();
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
+            _timer = null;
         }
     }
 }

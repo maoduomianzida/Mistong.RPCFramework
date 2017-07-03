@@ -108,9 +108,9 @@ namespace Mistong.RPCFramework.Thrift
             ThriftClientConfig thriftConfig = config as ThriftClientConfig;
             if (thriftConfig != null)
             {
-                thriftConfig.ConnectionLimit = thriftConfig.ConnectionLimit ?? 50;
-                thriftConfig.ConnectionOverdueInterval = thriftConfig.ConnectionOverdueInterval ?? TimeSpan.FromMinutes(5);
-                thriftConfig.WaitFreeMillisecond = thriftConfig.WaitFreeMillisecond ?? 1000;
+                //thriftConfig.ConnectionLimit = thriftConfig.ConnectionLimit ?? 50;
+                //thriftConfig.ConnectionOverdueInterval = thriftConfig.ConnectionOverdueInterval ?? TimeSpan.FromMinutes(5);
+                //thriftConfig.WaitFreeMillisecond = thriftConfig.WaitFreeMillisecond ?? 1000;
             }
         }
 

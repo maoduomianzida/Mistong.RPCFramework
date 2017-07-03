@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework.CircuitBreaker
 {
-    public class OpenState : CircuitBreakerState
+    public class OpenState : CircuitBreakerState,IDisposable
     {
         private Timer _switchHalfOpenTimer;
         private TimeSpan _switchHalfOpenTimeSpan;
@@ -49,6 +49,12 @@ namespace Mistong.RPCFramework.CircuitBreaker
         public override void Clear()
         {
             _switchHalfOpenTimer.Stop();
+        }
+
+        public void Dispose()
+        {
+            _switchHalfOpenTimer?.Dispose();
+            _switchHalfOpenTimer = null;
         }
     }
 }

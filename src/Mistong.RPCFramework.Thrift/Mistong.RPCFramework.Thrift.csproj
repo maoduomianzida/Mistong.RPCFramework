@@ -79,6 +79,10 @@
     <Compile Include="Converter\ThriftServerConfigConverter.cs" />
     <Compile Include="Exception\ThriftConnectionFullException.cs" />
     <Compile Include="Extension\IServiceContainerExtension.cs" />
+    <Compile Include="Filter\ActionContext.cs" />
+    <Compile Include="Filter\ActionDescriptor.cs" />
+    <Compile Include="Filter\ActionResult.cs" />
+    <Compile Include="Filter\CircuitBreakerFilter\CircuitBreakerFilter.cs" />
     <Compile Include="Filter\ExceptionContext.cs" />
     <Compile Include="Filter\FilterCollection.cs" />
     <Compile Include="Filter\FilterComparer.cs" />
