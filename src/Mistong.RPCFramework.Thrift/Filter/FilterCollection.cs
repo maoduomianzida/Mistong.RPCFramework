@@ -36,7 +36,7 @@ namespace Mistong.RPCFramework.Thrift
                     {
                         actionFilters.Add(instance as IActionFilter);
                     }
-                    else if(instance is IExceptionFilter)
+                    if(instance is IExceptionFilter)
                     {
                         exceptionFilters.Add(instance as IExceptionFilter);
                     }
@@ -44,14 +44,6 @@ namespace Mistong.RPCFramework.Thrift
                 ActionFilters = actionFilters;
                 ExceptionFilters = exceptionFilters;
             }
-        }
-
-        protected virtual ICollection<FilterInfo> SortFilter(ICollection<FilterInfo> filters)
-        {
-            List<FilterInfo> newFilters = filters as List<FilterInfo> ?? new List<FilterInfo>(filters);
-            newFilters.Sort(_comparer);
-
-            return newFilters;
         }
     }
 }

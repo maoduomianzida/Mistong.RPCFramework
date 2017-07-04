@@ -13,32 +13,31 @@ namespace Mistong.RPCFramework.Thrift
 {
     public class ThriftDynamicProxy : IDynamicProxyBuilder
     {
-        private string _dynamicAsseblyName;
+        private string _dynamicAssemblyName;
         private AssemblyBuilder _assemblyBuilder;
         private ModuleBuilder _moduleBuilder;
         private ConcurrentDictionary<Type, Lazy<Type>> _dynamicProxyCache;
         private MethodInfo _handException;
         private ConstructorInfo _exceptionContextCtor;
-        private object createLock = new object();
 
-        public ThriftDynamicProxy(string dynamicAsseblyName)
+        public ThriftDynamicProxy(string dynamicAssemblyName)
         {
-            if (string.IsNullOrWhiteSpace(dynamicAsseblyName))
+            if (string.IsNullOrWhiteSpace(dynamicAssemblyName))
             {
-                throw new ArgumentException(nameof(dynamicAsseblyName) + "参数不能为null或者空字符串");
+                throw new ArgumentException(nameof(dynamicAssemblyName) + "参数不能为null或者空字符串");
             }
-            _dynamicAsseblyName = dynamicAsseblyName;
+            _dynamicAssemblyName = dynamicAssemblyName;
             _dynamicProxyCache = new ConcurrentDictionary<Type, Lazy<Type>>();
-            _handException = typeof(IServiceContainerExtension).GetMethod("HandException", BindingFlags.Public | BindingFlags.Static);
-            _exceptionContextCtor = typeof(ExceptionContext).GetConstructor(new Type[] { typeof(Exception) });
+            _handException = typeof(IServiceContainerExtension).GetMethod("HandException",new Type[] { typeof(IServiceContainer),typeof(ExceptionContext) });
+            _exceptionContextCtor = typeof(ExceptionContext).GetConstructor(new Type[] { typeof(ActionDescriptor), typeof(Exception) });
             BuildDynamicAssembly();
         }
 
         protected void BuildDynamicAssembly()
         {
-            AssemblyName assemblyName = new AssemblyName(_dynamicAsseblyName);
+            AssemblyName assemblyName = new AssemblyName(_dynamicAssemblyName);
             _assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
-            _moduleBuilder = _assemblyBuilder.DefineDynamicModule(_dynamicAsseblyName);
+            _moduleBuilder = _assemblyBuilder.DefineDynamicModule(_dynamicAssemblyName);
         }
 
         public virtual Type CreateProxy(Type interfaceType)
@@ -103,7 +102,7 @@ namespace Mistong.RPCFramework.Thrift
         protected virtual Type CreateProxyCore(Type interfaceType)
         {
             bool containsDisposable = !typeof(IDisposable).IsAssignableFrom(interfaceType);
-            TypeBuilder typeBuilder = _moduleBuilder.DefineType(_dynamicAsseblyName + "." + interfaceType.Name + "Implement", TypeAttributes.Public, typeof(Object), new Type[] { interfaceType, typeof(IDisposable) });
+            TypeBuilder typeBuilder = _moduleBuilder.DefineType(_dynamicAssemblyName + "." + interfaceType.Name + "Implement", TypeAttributes.Public, typeof(Object), new Type[] { interfaceType, typeof(IDisposable) });
             FieldBuilder fieldBuilder = typeBuilder.DefineField("_realImplement", interfaceType, FieldAttributes.Private);
             BuildConstructor(typeBuilder, fieldBuilder);
             BuildMethods(typeBuilder, fieldBuilder, interfaceType);
@@ -143,7 +142,7 @@ namespace Mistong.RPCFramework.Thrift
                 il.Emit(OpCodes.Stelem_Ref);
             }
             il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(string),typeof(Type[]) }));
-            il.Emit(OpCodes.Newobj,typeof(ActionDescriptor).GetConstructor(new Type[] { typeof(MethodInfo)}));
+            il.Emit(OpCodes.Call,typeof(ActionDescriptorCreator).GetMethod("GetActionDescriptor",new Type[] { typeof(MethodInfo)}));
             il.Emit(OpCodes.Stloc_2);
         }
 
@@ -181,6 +180,24 @@ namespace Mistong.RPCFramework.Thrift
                 }));
         }
 
+        private void BuildActionResult(ILGenerator il,MethodInfo methodInfo)
+        {
+            il.Emit(OpCodes.Ldloc_2);
+            if (methodInfo.ReturnType != typeof(void))
+            {
+                il.Emit(OpCodes.Ldloc_3);
+                if (methodInfo.ReturnType.IsValueType)
+                {
+                    il.Emit(OpCodes.Box,methodInfo.ReturnType);
+                }
+            }
+            else
+            {
+                il.Emit(OpCodes.Ldnull);
+            }
+            il.Emit(OpCodes.Newobj,typeof(ActionResult).GetConstructor(new Type[] { typeof(ActionDescriptor),typeof(object)}));
+        }
+
         protected virtual void BuildMethod(TypeBuilder typeBuilder, MethodInfo methodInfo, FieldBuilder field)
         {
             MethodBuilder method = typeBuilder.DefineMethod(methodInfo.Name,
@@ -194,7 +211,7 @@ namespace Mistong.RPCFramework.Thrift
             method.SetParameters((from param in paramsArr select param.ParameterType).ToArray());
             ILGenerator il = method.GetILGenerator();
             bool haveReturnType = methodInfo.ReturnType != typeof(void);
-            il.DeclareLocal(typeof(ExceptionContext));
+            il.DeclareLocal(typeof(Exception));
             il.DeclareLocal(typeof(IServiceContainer));
             il.DeclareLocal(typeof(ActionDescriptor));
             if (haveReturnType) il.DeclareLocal(methodInfo.ReturnType);
@@ -214,10 +231,11 @@ namespace Mistong.RPCFramework.Thrift
             il.Emit(OpCodes.Callvirt, methodInfo);
             if (haveReturnType) il.Emit(OpCodes.Stloc_3);
             il.BeginCatchBlock(typeof(Exception));
-            il.Emit(OpCodes.Newobj, _exceptionContextCtor);
             il.Emit(OpCodes.Stloc_0);
             il.Emit(OpCodes.Ldloc_1);
+            il.Emit(OpCodes.Ldloc_2);
             il.Emit(OpCodes.Ldloc_0);
+            il.Emit(OpCodes.Newobj, _exceptionContextCtor);
             il.Emit(OpCodes.Call, _handException.MakeGenericMethod(haveReturnType ? methodInfo.ReturnType : typeof(object)));
             if (haveReturnType)
             {
@@ -225,7 +243,8 @@ namespace Mistong.RPCFramework.Thrift
             }
             il.EndExceptionBlock();
             il.Emit(OpCodes.Ldloc_1);
-            il.Emit(OpCodes.Call, typeof(IServiceContainerExtension).GetMethod("ActionExecuteAfter", BindingFlags.Public | BindingFlags.Static));
+            BuildActionResult(il,methodInfo);
+            il.Emit(OpCodes.Call, typeof(IServiceContainerExtension).GetMethod("ActionExecuteAfter",new Type[] { typeof(IServiceContainer),typeof(ActionResult) }));
             if (haveReturnType) il.Emit(OpCodes.Ldloc_3);
 
             il.Emit(OpCodes.Ret);

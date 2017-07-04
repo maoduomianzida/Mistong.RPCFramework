@@ -21,12 +21,12 @@ namespace Mistong.RPCFramework.Thrift
 
         public static void AddExceptionFilter(this IServiceContainer container,IExceptionFilter filter)
         {
-            container.AddFilter(new FilterInfo { Instance = filter, Order = int.MaxValue });
+            container.AddFilter(new FilterInfo { Instance = filter, Order = int.MinValue });
         }
 
         public static void AddActionFilter(this IServiceContainer container,IActionFilter filter)
         {
-            container.AddFilter(new FilterInfo { Instance = filter, Order = int.MaxValue });
+            container.AddFilter(new FilterInfo { Instance = filter, Order = int.MinValue });
         }
 
         public static void AddFilter(this IServiceContainer container,FilterInfo filter)
@@ -68,14 +68,14 @@ namespace Mistong.RPCFramework.Thrift
             }
         }
 
-        public static void ActionExecuteAfter(this IServiceContainer container)
+        public static void ActionExecuteAfter(this IServiceContainer container,ActionResult actionResult)
         {
             if (container == null) throw new ArgumentNullException(nameof(container));
             var realContainer = MustThriftServiceContainer(container);
             realContainer.Filters.Build();
             foreach (IActionFilter filter in realContainer.Filters.ActionFilters.Reverse())
             {
-                filter.ExecuteAfter(null);
+                filter.ExecuteAfter(actionResult);
             }
         }
     }

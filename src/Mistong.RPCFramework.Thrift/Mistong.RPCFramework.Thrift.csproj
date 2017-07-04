@@ -90,6 +90,7 @@
     <Compile Include="Filter\IActionFilter.cs" />
     <Compile Include="Filter\IExceptionFilter.cs" />
     <Compile Include="Filter\MissingResultExceptionFilter.cs" />
+    <Compile Include="Helper\ActionDescriptorCreator.cs" />
     <Compile Include="Helper\AgentServiceHelper.cs" />
     <Compile Include="Config\ConsulRegistrationCenter.cs" />
     <Compile Include="Converter\ConfigCenterCreationConverter.cs" />

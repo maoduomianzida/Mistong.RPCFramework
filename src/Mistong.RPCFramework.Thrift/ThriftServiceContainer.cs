@@ -49,7 +49,7 @@ namespace Mistong.RPCFramework.Thrift
             //                                             clientConfig.ConnectionOverdueInterval.Value));
             _cache.Add(typeof(IClientController), new ThriftClientController());
             _cache.Add(typeof(IDynamicProxyBuilder), new ThriftDynamicProxy("Mistong.RPCFramework.Thrift"));
-            this.AddExceptionFilter(new MissingResultExceptionFilter());
+            this.AddFilter(new FilterInfo { Instance = new MissingResultExceptionFilter(), Order = int.MaxValue });
         }
 
         public virtual void Add(Type type, Func<Type, object> func)

@@ -21,3 +21,4 @@ E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\b
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Web.Http.xml
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\System.Web.Http.SelfHost.xml
 E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\bin\Debug\zh-Hans\System.Web.Http.SelfHost.resources.dll
+E:\Mistong_Project\Mistong.RPCFramework\test\Mistong.RPCFramework.ThriftServer\obj\Debug\Mistong.RPCFramework.ThriftServer.csproj.CoreCompileInputs.cache

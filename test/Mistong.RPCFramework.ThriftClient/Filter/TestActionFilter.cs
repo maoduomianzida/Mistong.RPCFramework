@@ -7,7 +7,7 @@ using Mistong.RPCFramework.Thrift;
 
 namespace Mistong.RPCFramework.ThriftClient
 {
-    public class TestActionFilter : IActionFilter
+    public class TestActionFilter : IActionFilter ,IExceptionFilter
     {
         public void ExecuteAfter(ActionResult result)
         {
@@ -17,6 +17,12 @@ namespace Mistong.RPCFramework.ThriftClient
         public void ExecuteBefore(ActionContext context)
         {
             Console.WriteLine("执行前");
+        }
+
+        public T HandException<T>(ExceptionContext context)
+        {
+            context.HandException = true;
+            return default(T);
         }
     }
 }

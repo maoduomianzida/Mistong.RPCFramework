@@ -13,7 +13,7 @@ namespace Mistong.RPCFramework.Thrift
             if (x == null) return -1;
             if (y == null) return 1;
 
-            return (x.Order - y.Order);
+            return y.Order - x.Order;
         }
     }
 }
