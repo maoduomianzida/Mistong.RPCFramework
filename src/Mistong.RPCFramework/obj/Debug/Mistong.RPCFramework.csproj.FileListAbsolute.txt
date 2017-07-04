@@ -13,3 +13,4 @@ F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\bin\Debug\Mistong.RP
 F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.csprojResolveAssemblyReference.cache
 F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.dll
 F:\SourceCode\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.pdb
+E:\Mistong_Project\Mistong.RPCFramework\src\Mistong.RPCFramework\obj\Debug\Mistong.RPCFramework.csproj.CoreCompileInputs.cache

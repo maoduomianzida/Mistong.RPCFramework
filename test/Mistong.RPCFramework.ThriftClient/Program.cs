@@ -17,11 +17,14 @@ namespace Mistong.RPCFramework.ThriftClient
     {
         static void Main(string[] args)
         {
-            GlobalSetting.Start(new ThriftServiceContainer());
-            UserService.Iface tmpService = GlobalSetting.GetService<UserService.Iface>();
-            tmpService.Add(new UserInfo { UserID = 10, UserName = "wg.king", Sex = true });
-
-            return;
+            ThriftServiceContainer  serviceContainer = new ThriftServiceContainer();
+            //serviceContainer.AddActionFilter(new TestActionFilter());
+            GlobalSetting.Start(serviceContainer);
+            //UserService.Iface tmpService = GlobalSetting.GetService<UserService.Iface>();
+            //tmpService.Add(new UserInfo { UserID = 10, UserName = "wg.king", Sex = true });
+            //UserInfo tmp123 = tmpService.GetUser(10);
+            //Console.WriteLine(JsonConvert.SerializeObject(tmp123));
+            //return;
             //container.Reaplce(typeof(IThriftConnectionPool),new FreshConnectionPool());
             //container.AddActionFilter(new TestActionFilter());
             //SelfServiceAssembliesResolver resolver = new SelfServiceAssembliesResolver();

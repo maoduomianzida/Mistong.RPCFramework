@@ -8,11 +8,7 @@ using Thrift;
 
 namespace Mistong.RPCFramework.ThriftClient
 {
-    public interface ITempFace : UserService.Iface
-    { }
-
-
-    public class UserServiceImplement : ITempFace
+    public class UserServiceImplement : UserService.Iface
     {
         private List<UserInfo> _userList;
 

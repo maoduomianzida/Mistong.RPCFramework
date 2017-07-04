@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Mistong.RPCFramework.ThriftServer
 {
-
     class Program
     {
         static void Main(string[] args)
